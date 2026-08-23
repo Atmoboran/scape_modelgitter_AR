@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>SCAPE° — Modellgitter in AR</title>
+<meta name="description" content="Erlebe die Rechengitter globaler Wettermodelle in Augmented Reality — ein SCAPE°-Projekt." />
+<script type="module" src="https://unpkg.com/@google/model-viewer@4.3.1/dist/model-viewer.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#111111;
+    --paper:#ffffff;
+    --line:#111111;
+
+    /* SCAPE° palette, sampled from the corporate identity guide */
+    --olive:#6b6b23;
+    --mustard:#d2a716;
+    --orange:#ef8f2c;
+    --rust:#c65a2a;
+    --red:#df2a1e;
+    --purple:#4a2e83;
+    --green:#00954f;
+    --cyan:#1093c4;
+    --navy:#28348f;
+
+    --cream:#f2e2c0;
+    --pastel-yellow:#f6ea79;
+    --bright-yellow:#ffe400;
+    --pastel-blue:#cfe6f6;
+    --pastel-lavender:#dcd6f2;
+    --mint:#4ab48a;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0; padding:0; min-height:100%;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  }
+  h1,h2,h3{font-family:inherit;}
+  img,svg{max-width:100%;}
+
+  .wrap{ max-width:600px; margin:0 auto; }
+
+  /* ============ WORDMARK / TOPBAR ============ */
+  .topbar{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    padding:22px 20px 14px;
+  }
+  .wordmark .word{
+    display:block; font-size:26px; font-weight:800; letter-spacing:-.01em; line-height:1;
+  }
+  .wordmark .sub{
+    display:block; margin-top:4px; font-size:10px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase;
+  }
+  .topbar-tag{
+    font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    text-align:right; color:var(--ink); max-width:120px;
+  }
+
+  /* ============ POSTER HERO ============ */
+  .poster{
+    margin:0 20px 18px;
+    position:relative;
+    aspect-ratio:2.2/1;
+    overflow:hidden;
+  }
+  .poster-grid{
+    position:absolute; inset:0;
+    display:grid;
+    grid-template-columns:repeat(10,1fr);
+    grid-template-rows:1fr 1fr;
+  }
+  .q-orange{ grid-column:1/6; grid-row:1/2; background:var(--orange); }
+  .q-yellow{ grid-column:6/11; grid-row:1/2; background:var(--pastel-yellow); }
+  .q-cream{ grid-column:1/8; grid-row:2/3; background:var(--cream); }
+  .q-navy{ grid-column:8/11; grid-row:2/3; background:var(--navy); }
+
+  .arch{
+    position:absolute; right:6%; top:10%;
+    width:34%;
+    color:var(--mint);
+  }
+  .arch svg{ display:block; width:100%; height:auto; }
+
+  .poster-copy{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:0 18px 16px;
+    max-width:72%;
+  }
+  .poster-title{
+    margin:0 0 6px; font-weight:900; text-transform:uppercase;
+    font-size:clamp(20px,7vw,30px); line-height:.98; letter-spacing:-.01em;
+  }
+  .poster-tagline{
+    margin:0; font-size:10px; font-weight:700; letter-spacing:.02em;
+    line-height:1.35; text-transform:uppercase;
+  }
+
+  /* ============ SCHEMATIC CARD ============ */
+  .photo-card{
+    margin:0 20px 26px;
+  }
+  .photo-card .schematic{
+    display:block; width:100%; height:auto;
+    border:2px solid var(--ink);
+    background:var(--cream);
+  }
+  .photo-cap{
+    margin-top:6px; font-size:10.5px; font-weight:600; letter-spacing:.03em; color:var(--ink);
+  }
+
+  main{ padding:0 20px 30px; }
+
+  /* ============ SECTION LABELS ============ */
+  .section-label{
+    font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+    margin:0 0 12px;
+  }
+
+  /* ============ EXPLAINER ============ */
+  .explainer{ margin-bottom:30px; }
+  .explainer h2{
+    margin:0 0 10px; font-size:19px; font-weight:800; letter-spacing:-.01em;
+  }
+  p.blurb{
+    margin:0 0 14px; font-size:14.5px; line-height:1.6; color:var(--ink);
+  }
+
+  /* ============ GRID PICKER ============ */
+  .picker{ display:flex; flex-direction:column; gap:10px; margin-bottom:26px; }
+  .grid-card{
+    display:flex; align-items:center; gap:14px;
+    width:100%; text-align:left;
+    border:2px solid transparent;
+    padding:14px 16px; cursor:pointer;
+  }
+  .grid-card.selected{ border-color:var(--ink); }
+  .grid-icon-card{ background:var(--cream); }
+  .grid-healpix-card{ background:var(--pastel-blue); }
+
+  .grid-card .icon{
+    flex:none; width:42px; height:42px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .grid-card .icon svg{ width:100%; height:100%; }
+  .icon-icon{ color:var(--rust); }
+  .icon-healpix{ color:var(--navy); }
+
+  .grid-card .info{ flex:1; min-width:0; }
+  .grid-card .name{ font-weight:800; font-size:14.5px; }
+  .grid-card .desc{ font-size:11.5px; font-weight:500; margin-top:2px; line-height:1.4; }
+
+  .grid-card .check{
+    flex:none; width:16px; height:16px; border:2px solid var(--ink); background:var(--paper);
+  }
+  .grid-card.selected .check{ background:var(--ink); }
+
+  /* ============ READOUT ============ */
+  .readout{
+    display:flex; gap:18px 26px; flex-wrap:wrap;
+    margin-bottom:26px; padding:16px 0; border-top:2px solid var(--ink); border-bottom:2px solid var(--ink);
+  }
+  .readout div{ font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  .readout b{ display:block; font-size:14px; font-weight:700; letter-spacing:0; margin-top:3px; text-transform:none; }
+
+  /* ============ CTA ============ */
+  .cta-explain{ font-size:13px; }
+  .cta-explain b{ font-weight:800; }
+
+  #ar-launch{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%;
+    background:var(--bright-yellow); color:var(--ink); border:2px solid var(--ink);
+    font-family:inherit; font-weight:800; font-size:15px; text-transform:uppercase; letter-spacing:.02em;
+    padding:16px 20px; cursor:pointer;
+  }
+  #ar-launch svg{width:19px; height:19px; flex:none;}
+  #ar-launch .sub{
+    display:block; font-size:10.5px; font-weight:600; text-transform:none; letter-spacing:0; opacity:.75; margin-top:1px;
+  }
+  #ar-launch:disabled{opacity:.45; cursor:wait;}
+  .hint{
+    margin-top:12px; font-size:11.5px; font-weight:500; color:var(--ink); text-align:center;
+  }
+  .build-tag{
+    margin-top:6px; font-size:9.5px; font-weight:600; color:var(--ink); text-align:center; opacity:.4;
+  }
+
+  /* ============ FOOTER ============ */
+  .brand-footer{
+    padding:26px 20px 34px; border-top:2px solid var(--ink);
+    font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; line-height:1.6;
+  }
+
+  /* ============ AR / VIEWER OVERLAY ============ */
+  /* Kept rendered (not display:none) at all times so model-viewer
+     always has real layout dimensions — AR activation needs those
+     to be already correct at the moment activateAR() is called. */
+  #viewer-screen{
+    position:fixed; inset:0; z-index:20;
+    background:#0b0b0b;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  #viewer-screen.active{
+    visibility:visible;
+    pointer-events:auto;
+  }
+
+  #close-viewer{
+    position:absolute; top:16px; left:16px; z-index:22;
+    display:flex; align-items:center; justify-content:center;
+    width:38px; height:38px;
+    background:var(--bright-yellow); border:2px solid var(--ink);
+    color:var(--ink); cursor:pointer;
+  }
+  #close-viewer svg{width:18px; height:18px;}
+
+  model-viewer{
+    width:100%; height:100%;
+    --poster-color: transparent;
+    --progress-bar-color: var(--bright-yellow);
+  }
+
+  #ar-button{
+    display:flex; align-items:center; gap:10px;
+    background:var(--bright-yellow); color:var(--ink); border:2px solid var(--ink);
+    font-family:'Archivo', sans-serif; font-weight:800; font-size:14px; text-transform:uppercase;
+    padding:14px 20px; cursor:pointer;
+  }
+  #ar-button svg{width:18px; height:18px; flex:none;}
+  #ar-button .sub{display:block; font-size:10px; font-weight:600; text-transform:none; opacity:.75; margin-top:1px;}
+
+  .viewer-hint{
+    position:absolute; left:0; right:0; bottom:18px; z-index:21;
+    text-align:center; font-size:11px; font-weight:600; color:#fff;
+    pointer-events:none;
+  }
+</style>
+</head>
+<body>
+
+<div id="landing">
+  <div class="wrap">
+    <header class="topbar">
+      <div class="wordmark">
+        <span class="word">SCAPE&deg;</span>
+        <span class="sub">Wetter, Klima, Mensch</span>
+      </div>
+      <div class="topbar-tag">AR&#8209;Erlebnis</div>
+    </header>
+
+    <div class="poster">
+      <div class="poster-grid">
+        <div class="q-orange"></div>
+        <div class="q-yellow"></div>
+        <div class="q-cream"></div>
+        <div class="q-navy"></div>
+      </div>
+      <div class="arch" aria-hidden="true">
+        <svg viewBox="0 0 400 200"><path fill="currentColor" d="M20,200 A180,180 0 0 1 380,200 L310,200 A110,110 0 0 0 90,200 Z"/></svg>
+      </div>
+      <div class="poster-copy">
+        <h1 class="poster-title">Modell&#8209;<br>Gitter</h1>
+        <p class="poster-tagline">Wie Computer das Wetter berechnen</p>
+      </div>
+    </div>
+
+    <figure class="photo-card">
+      <svg class="schematic" viewBox="0 0 400 220" role="img" aria-label="Schematische Darstellung eines Dreiecksgitters und eines rautenförmigen Gitters auf einer Kugel">
+        <rect x="0" y="0" width="400" height="220" fill="#f2e2c0"/>
+        <line x1="200" y1="14" x2="200" y2="206" stroke="#111111" stroke-width="2"/>
+        <circle cx="100" cy="110" r="88" fill="none" stroke="#111111" stroke-width="3"/>
+        <g stroke="#c65a2a" stroke-width="3" fill="none" stroke-linecap="round">
+          <line x1="100" y1="110" x2="188" y2="110"/>
+          <line x1="100" y1="110" x2="144" y2="186"/>
+          <line x1="100" y1="110" x2="56" y2="186"/>
+          <line x1="100" y1="110" x2="12" y2="110"/>
+          <line x1="100" y1="110" x2="56" y2="34"/>
+          <line x1="100" y1="110" x2="144" y2="34"/>
+          <path d="M188,110 L144,186 L56,186 L12,110 L56,34 L144,34 Z"/>
+        </g>
+        <circle cx="300" cy="110" r="88" fill="none" stroke="#111111" stroke-width="3"/>
+        <g fill="#28348f">
+          <rect x="286" y="46" width="28" height="28" transform="rotate(45 300 60)"/>
+          <rect x="248" y="84" width="28" height="28" transform="rotate(45 262 98)"/>
+          <rect x="324" y="84" width="28" height="28" transform="rotate(45 338 98)"/>
+          <rect x="286" y="122" width="28" height="28" transform="rotate(45 300 136)"/>
+          <rect x="248" y="146" width="26" height="26" transform="rotate(45 261 159)"/>
+          <rect x="324" y="146" width="26" height="26" transform="rotate(45 337 159)"/>
+        </g>
+      </svg>
+      <figcaption class="photo-cap">Zwei Wege, eine Kugel in Rechenzellen zu zerlegen &mdash; schematische Darstellung &middot; SCAPE&deg;</figcaption>
+    </figure>
+
+    <main>
+      <div class="explainer">
+        <h2>Was ist ein Rechengitter?</h2>
+        <p class="blurb">
+          Ein Wettermodell kann die Atmosph&auml;re nicht als Ganzes berechnen &mdash; daf&uuml;r ist sie zu komplex. Stattdessen zerlegen Meteorolog&#8239;:&#8239;innen die Erdoberfl&auml;che in Millionen kleiner Zellen: ein Rechengitter. F&uuml;r jede einzelne Zelle l&ouml;st der Supercomputer die physikalischen Gleichungen von Wind, Temperatur und Feuchte &mdash; Zelle f&uuml;r Zelle, alle paar Minuten neu. Je kleiner die Zellen, desto feiner die Details, die das Modell erfassen kann: von riesigen Tiefdruckgebieten bis hinunter zu einzelnen Gewitterzellen. Kleinere Zellen bedeuten aber auch mehr Rechenaufwand &mdash; die Aufl&ouml;sung eines Modells ist deshalb immer ein Kompromiss zwischen Genauigkeit und Rechenzeit.
+        </p>
+        <p class="blurb">
+          Eine Kugel l&uuml;ckenlos und gleichm&auml;&szlig;ig in Zellen aufzuteilen, ist &uuml;berraschend schwierig. Ein einfaches L&auml;ngen&#8209;Breiten&#8209;Gitter etwa staucht die Zellen an den Polen fast auf einen Punkt zusammen und verschwendet dort Rechenleistung. Wetterdienste haben deshalb eigene L&ouml;sungen entwickelt: Der Deutsche Wetterdienst nutzt f&uuml;r sein Modell ICON ein Gitter aus lauter Dreiecken, die aus einem zwanzigfl&auml;chigen Ikosaeder verfeinert werden &mdash; fast &uuml;berall gleich gro&szlig;, egal ob &Auml;quator oder Pol. Andere Modelle setzen auf HEALPix, ein Gitter aus gleich gro&szlig;en, rautenf&ouml;rmigen Zellen, das urspr&uuml;nglich f&uuml;r astronomische Himmelskarten entwickelt wurde und heute zunehmend auch in der Wettervorhersage und in KI&#8209;Modellen zum Einsatz kommt.
+        </p>
+      </div>
+
+      <div class="section-label">Gitter ausw&auml;hlen</div>
+      <div class="picker" id="picker">
+        <button class="grid-card grid-icon-card selected" data-grid="icon">
+          <span class="icon icon-icon" aria-hidden="true">
+            <svg viewBox="0 0 200 200"><path fill="currentColor" d="M100,10 L190,180 L10,180 Z"/></svg>
+          </span>
+          <span class="info">
+            <span class="name">ICON&#8209;Gitter (Ikosaeder)</span>
+            <span class="desc">Deutscher Wetterdienst &middot; Dreiecksgitter aus einem verfeinerten Ikosaeder</span>
+          </span>
+          <span class="check"></span>
+        </button>
+        <button class="grid-card grid-healpix-card" data-grid="healpix">
+          <span class="icon icon-healpix" aria-hidden="true">
+            <svg viewBox="0 0 200 200"><rect x="30" y="30" width="140" height="140" fill="currentColor" transform="rotate(45 100 100)"/></svg>
+          </span>
+          <span class="info">
+            <span class="name">HEALPix&#8209;Gitter</span>
+            <span class="desc">Urspr&uuml;nglich aus der Astronomie &middot; gleich gro&szlig;e, rautenf&ouml;rmige Zellen</span>
+          </span>
+          <span class="check"></span>
+        </button>
+      </div>
+
+      <div class="readout" id="readout">
+        <div>Institution<b id="ro-institution">DWD</b></div>
+        <div>Gittertyp<b id="ro-gittertyp">Ikosaeder&#8209;Dreiecksgitter</b></div>
+        <div>Zellform<b id="ro-zellform">Dreiecke</b></div>
+        <div>Aufl&ouml;sung<b id="ro-aufloesung">&asymp; 13&nbsp;km (global)</b></div>
+      </div>
+
+      <p class="blurb cta-explain">
+        Tippe auf <b>Ansehen</b>, um deine Kamera zu &ouml;ffnen und das Gitter direkt bei dir im Raum schweben zu lassen &mdash; geh drumherum und schau dir die Zellstruktur aus der N&auml;he an.
+      </p>
+      <button id="ar-launch" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6m0 8v6M4.9 4.9l4.2 4.2m5.8 5.8l4.2 4.2M2 12h6m8 0h6M4.9 19.1l4.2-4.2m5.8-5.8l4.2-4.2"/></svg>
+        <span>
+          <span id="ar-launch-label">In AR ansehen</span>
+          <span class="sub">&Ouml;ffnet deine Kamera</span>
+        </span>
+      </button>
+      <div class="hint" id="hint">Tippe, um das Gitter in deinem Raum zu platzieren, oder drehe das 3D&#8209;Modell auf dem Bildschirm.</div>
+      <div class="build-tag">build v1</div>
+    </main>
+
+    <footer class="brand-footer">
+      Wetter, Klima, Wandel.<br>Wir erkl&auml;ren es. &mdash; SCAPE&deg;
+    </footer>
+  </div>
+</div>
+
+<div id="viewer-screen">
+  <button id="close-viewer" aria-label="Ansicht schlie&szlig;en">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+
+  <model-viewer
+    id="viewer"
+    alt="3D&#8209;Modell eines globalen Wettermodell&#8209;Rechengitters"
+    ar
+    ar-modes="webxr scene-viewer quick-look"
+    ar-scale="auto"
+    ar-placement="floor"
+    camera-controls
+    bounds="tight"
+    touch-action="pan-y"
+    shadow-intensity="1"
+    shadow-softness="0.9"
+    exposure="1.05"
+    environment-image="neutral"
+    camera-orbit="35deg 75deg auto"
+  >
+    <button slot="ar-button" id="ar-button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6m0 8v6M4.9 4.9l4.2 4.2m5.8 5.8l4.2 4.2M2 12h6m8 0h6M4.9 19.1l4.2-4.2m5.8-5.8l4.2-4.2"/></svg>
+      <span>
+        In deinem Raum ansehen
+        <span class="sub">&Ouml;ffnet deine Kamera</span>
+      </span>
+    </button>
+  </model-viewer>
+
+  <div class="viewer-hint">Wische oder ziehe &uuml;ber den Bildschirm, um das Modell zu drehen und Details zu erkunden.</div>
+</div>
+
+<script>
+  var GRIDS = {
+    icon: {
+      src: 'ICON_icosahedral_grid.glb',
+      iosSrc: 'ICON_icosahedral_grid.usdz',
+      scale: '1 1 1',
+      label: 'ICON&#8209;Gitter in AR ansehen',
+      institution: 'DWD',
+      gittertyp: 'Ikosaeder&#8209;Dreiecksgitter',
+      zellform: 'Dreiecke',
+      aufloesung: '&asymp; 13&nbsp;km (global)'
+    },
+    healpix: {
+      src: 'HEALPix_grid.glb',
+      iosSrc: 'HEALPix_grid.usdz',
+      scale: '1 1 1',
+      label: 'HEALPix&#8209;Gitter in AR ansehen',
+      institution: 'Astronomie &rarr; Wetter/KI',
+      gittertyp: 'HEALPix (fl&auml;chengleich)',
+      zellform: 'Rauten',
+      aufloesung: 'variabel (z.&nbsp;B. Nside&nbsp;256 &asymp; 25&nbsp;km)'
+    }
+  };
+
+  var viewerScreen = document.getElementById('viewer-screen');
+  var modelViewer = document.getElementById('viewer');
+  var arLaunch = document.getElementById('ar-launch');
+  var arLaunchLabel = document.getElementById('ar-launch-label');
+  var picker = document.getElementById('picker');
+  var buildTag = document.querySelector('.build-tag');
+
+  var roInstitution = document.getElementById('ro-institution');
+  var roGittertyp = document.getElementById('ro-gittertyp');
+  var roZellform = document.getElementById('ro-zellform');
+  var roAufloesung = document.getElementById('ro-aufloesung');
+
+  var current = 'icon';
+  var modelReady = false;
+
+  function loadGrid(key) {
+    var grid = GRIDS[key];
+    current = key;
+    modelReady = false;
+    arLaunch.disabled = true;
+    arLaunchLabel.innerHTML = grid.label;
+    roInstitution.innerHTML = grid.institution;
+    roGittertyp.innerHTML = grid.gittertyp;
+    roZellform.textContent = grid.zellform;
+    roAufloesung.innerHTML = grid.aufloesung;
+
+    modelViewer.setAttribute('ios-src', grid.iosSrc);
+    modelViewer.setAttribute('scale', grid.scale);
+    modelViewer.setAttribute('src', grid.src);
+  }
+
+  modelViewer.addEventListener('load', function () {
+    modelReady = true;
+    arLaunch.disabled = false;
+  });
+
+  picker.addEventListener('click', function (ev) {
+    var card = ev.target.closest('.grid-card');
+    if (!card) return;
+    var key = card.getAttribute('data-grid');
+    if (key === current) return;
+    var cards = picker.querySelectorAll('.grid-card');
+    for (var i = 0; i < cards.length; i++) cards[i].classList.remove('selected');
+    card.classList.add('selected');
+    loadGrid(key);
+  });
+
+  arLaunch.addEventListener('click', function () {
+    viewerScreen.classList.add('active');
+    modelViewer.activateAR();
+  });
+
+  document.getElementById('close-viewer').addEventListener('click', function () {
+    viewerScreen.classList.remove('active');
+  });
+
+  // Surface AR failures on the build tag instead of failing silently,
+  // so we can see *why* AR didn't launch instead of guessing.
+  modelViewer.addEventListener('ar-status', function (ev) {
+    if (ev.detail.status === 'failed' && buildTag) {
+      buildTag.textContent = 'build v1 — AR-Status: fehlgeschlagen';
+    }
+  });
+
+  loadGrid('icon');
+</script>
+
+</body>
+</html>
