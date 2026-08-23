@@ -308,7 +308,7 @@
         </p>
       </div>
 
-      <div class="section-label">Gitter ausw&auml;hlen</div>
+      <div class="section-label">ICON&#8209;Gitter</div>
       <div class="picker" id="picker">
         <button class="grid-card grid-icon-card selected" data-grid="icon">
           <span class="icon icon-icon" aria-hidden="true">
@@ -317,16 +317,6 @@
           <span class="info">
             <span class="name">ICON&#8209;Gitter (Ikosaeder)</span>
             <span class="desc">Deutscher Wetterdienst &middot; Dreiecksgitter aus einem verfeinerten Ikosaeder</span>
-          </span>
-          <span class="check"></span>
-        </button>
-        <button class="grid-card grid-healpix-card" data-grid="healpix">
-          <span class="icon icon-healpix" aria-hidden="true">
-            <svg viewBox="0 0 200 200"><rect x="30" y="30" width="140" height="140" fill="currentColor" transform="rotate(45 100 100)"/></svg>
-          </span>
-          <span class="info">
-            <span class="name">HEALPix&#8209;Gitter</span>
-            <span class="desc">Urspr&uuml;nglich aus der Astronomie &middot; gleich gro&szlig;e, rautenf&ouml;rmige Zellen</span>
           </span>
           <span class="check"></span>
         </button>
@@ -350,7 +340,7 @@
         </span>
       </button>
       <div class="hint" id="hint">Tippe, um das Gitter in deinem Raum zu platzieren, oder drehe das 3D&#8209;Modell auf dem Bildschirm.</div>
-      <div class="build-tag">build v1</div>
+      <div class="build-tag">build v2</div>
     </main>
 
     <footer class="brand-footer">
@@ -395,24 +385,14 @@
 <script>
   var GRIDS = {
     icon: {
-      src: 'ICON_icosahedral_grid.glb',
-      iosSrc: 'ICON_icosahedral_grid.usdz',
+      src: 'ICON_icosahedral_grid_bw.glb',
+      iosSrc: 'ICON_icosahedral_grid_bw.usdz',
       scale: '1 1 1',
       label: 'ICON&#8209;Gitter in AR ansehen',
       institution: 'DWD',
       gittertyp: 'Ikosaeder&#8209;Dreiecksgitter',
       zellform: 'Dreiecke',
       aufloesung: '&asymp; 13&nbsp;km (global)'
-    },
-    healpix: {
-      src: 'HEALPix_grid.glb',
-      iosSrc: 'HEALPix_grid.usdz',
-      scale: '1 1 1',
-      label: 'HEALPix&#8209;Gitter in AR ansehen',
-      institution: 'Astronomie &rarr; Wetter/KI',
-      gittertyp: 'HEALPix (fl&auml;chengleich)',
-      zellform: 'Rauten',
-      aufloesung: 'variabel (z.&nbsp;B. Nside&nbsp;256 &asymp; 25&nbsp;km)'
     }
   };
 
@@ -476,7 +456,7 @@
   // so we can see *why* AR didn't launch instead of guessing.
   modelViewer.addEventListener('ar-status', function (ev) {
     if (ev.detail.status === 'failed' && buildTag) {
-      buildTag.textContent = 'build v1 — AR-Status: fehlgeschlagen';
+      buildTag.textContent = 'build v2 — AR-Status: fehlgeschlagen';
     }
   });
 
