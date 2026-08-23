@@ -140,8 +140,9 @@
   }
   .grid-card.selected{ border-color:var(--ink); }
   .grid-icon-card{ background:var(--cream); }
-  .grid-icon3d-card{ background:var(--pastel-yellow); }
-  .grid-healpix-card{ background:var(--pastel-blue); }
+  .grid-cubedsphere-card{ background:var(--pastel-yellow); }
+  .grid-gaussian-card{ background:var(--pastel-blue); }
+  .grid-latlon-card{ background:var(--pastel-lavender); }
 
   .grid-card .icon{
     flex:none; width:42px; height:42px;
@@ -149,8 +150,9 @@
   }
   .grid-card .icon svg{ width:100%; height:100%; }
   .icon-icon{ color:var(--rust); }
-  .icon-icon3d{ color:var(--olive); }
-  .icon-healpix{ color:var(--navy); }
+  .icon-cubedsphere{ color:var(--olive); }
+  .icon-gaussian{ color:var(--navy); }
+  .icon-latlon{ color:var(--purple); }
 
   .grid-card .info{ flex:1; min-width:0; }
   .grid-card .name{ font-weight:800; font-size:14.5px; }
@@ -306,7 +308,7 @@
           Ein Wettermodell kann die Atmosph&auml;re nicht als Ganzes berechnen &mdash; daf&uuml;r ist sie zu komplex. Stattdessen zerlegen Meteorolog&#8239;:&#8239;innen die Erdoberfl&auml;che in Millionen kleiner Zellen: ein Rechengitter. Und weil die Atmosph&auml;re auch nach oben hin dick ist, wird jede dieser Fl&auml;chen zus&auml;tzlich in mehrere Schichten &uuml;bereinander unterteilt &mdash; aus dem zweidimensionalen Gitter wird so ein dreidimensionales Raster aus Zellen. F&uuml;r jede einzelne Zelle l&ouml;st der Supercomputer die physikalischen Gleichungen von Wind, Temperatur und Feuchte &mdash; Zelle f&uuml;r Zelle, alle paar Minuten neu. Je kleiner die Zellen, desto feiner die Details, die das Modell erfassen kann: von riesigen Tiefdruckgebieten bis hinunter zu einzelnen Gewitterzellen. Kleinere Zellen bedeuten aber auch mehr Rechenaufwand &mdash; die Aufl&ouml;sung eines Modells ist deshalb immer ein Kompromiss zwischen Genauigkeit und Rechenzeit.
         </p>
         <p class="blurb">
-          Eine Kugel l&uuml;ckenlos und gleichm&auml;&szlig;ig in Zellen aufzuteilen, ist &uuml;berraschend schwierig. Ein einfaches L&auml;ngen&#8209;Breiten&#8209;Gitter etwa staucht die Zellen an den Polen fast auf einen Punkt zusammen und verschwendet dort Rechenleistung. Wetterdienste haben deshalb eigene L&ouml;sungen entwickelt: Der Deutsche Wetterdienst nutzt f&uuml;r sein Modell ICON ein Gitter aus lauter Dreiecken, die aus einem zwanzigfl&auml;chigen Ikosaeder verfeinert werden &mdash; fast &uuml;berall gleich gro&szlig;, egal ob &Auml;quator oder Pol. Andere Modelle setzen auf HEALPix, ein Gitter aus gleich gro&szlig;en, rautenf&ouml;rmigen Zellen, das urspr&uuml;nglich f&uuml;r astronomische Himmelskarten entwickelt wurde und heute zunehmend auch in der Wettervorhersage und in KI&#8209;Modellen zum Einsatz kommt.
+          Eine Kugel l&uuml;ckenlos und gleichm&auml;&szlig;ig in Zellen aufzuteilen, ist &uuml;berraschend schwierig &mdash; und jeder Wetterdienst hat daf&uuml;r seine eigene L&ouml;sung entwickelt. Das einfachste L&auml;ngen&#8209;Breiten&#8209;Gitter legt Zellen entlang gleicher Grad&#8209;Abst&auml;nde an, staucht sie dadurch aber an den Polen fast auf einen Punkt zusammen. Das Gau&szlig;&#8209;Gitter mildert dieses Problem, indem es die Breitenkreise nach einem mathematischen Verfahren anordnet &mdash; lange Zeit die Grundlage vieler spektraler Modelle. Die kubische Sph&auml;re, wie sie das US&#8209;Modell GFS nutzt, projiziert stattdessen einen W&uuml;rfel auf die Kugel und erh&auml;lt so sechs nahezu gleichf&ouml;rmige Fl&auml;chen aus Vierecken. Der Deutsche Wetterdienst wiederum setzt bei ICON auf ein Gitter aus lauter Dreiecken, die aus einem zwanzigfl&auml;chigen Ikosaeder verfeinert werden &mdash; fast &uuml;berall gleich gro&szlig;, egal ob &Auml;quator oder Pol.
         </p>
       </div>
 
@@ -318,22 +320,45 @@
           </span>
           <span class="info">
             <span class="name">ICON&#8209;Gitter (Ikosaeder)</span>
-            <span class="desc">Deutscher Wetterdienst &middot; Dreiecksgitter aus einem verfeinerten Ikosaeder</span>
+            <span class="desc">Deutscher Wetterdienst &middot; Dreiecksgitter aus einem verfeinerten Ikosaeder, mit Vertikalschichten</span>
           </span>
           <span class="check"></span>
         </button>
-        <button class="grid-card grid-icon3d-card" data-grid="icon3d">
-          <span class="icon icon-icon3d" aria-hidden="true">
+        <button class="grid-card grid-cubedsphere-card" data-grid="cubedsphere">
+          <span class="icon icon-cubedsphere" aria-hidden="true">
+            <svg viewBox="0 0 200 200"><rect x="45" y="45" width="110" height="110" fill="currentColor"/></svg>
+          </span>
+          <span class="info">
+            <span class="name">Kubus&#8209;Sph&auml;re</span>
+            <span class="desc">U.&nbsp;a. GFS (NOAA) &middot; ein W&uuml;rfel, auf die Kugel projiziert &mdash; sechs Fl&auml;chen aus Vierecken</span>
+          </span>
+          <span class="check"></span>
+        </button>
+        <button class="grid-card grid-gaussian-card" data-grid="gaussian">
+          <span class="icon icon-gaussian" aria-hidden="true">
             <svg viewBox="0 0 200 200">
-              <path fill="currentColor" d="M100,100 L100,15 A85,85 0 0 1 185,100 Z"/>
-              <path fill="none" stroke="#f6ea79" stroke-width="6" d="M100,30 A70,70 0 0 1 170,100"/>
-              <path fill="none" stroke="#f6ea79" stroke-width="6" d="M100,50 A50,50 0 0 1 150,100"/>
-              <path fill="none" stroke="#f6ea79" stroke-width="6" d="M100,70 A30,30 0 0 1 130,100"/>
+              <rect x="65" y="30" width="70" height="36" fill="currentColor"/>
+              <rect x="35" y="82" width="130" height="36" fill="currentColor"/>
+              <rect x="65" y="134" width="70" height="36" fill="currentColor"/>
             </svg>
           </span>
           <span class="info">
-            <span class="name">ICON&#8209;Gitter 3D (Vertikalschnitt)</span>
-            <span class="desc">Deutscher Wetterdienst &middot; Schichten f&uuml;r verschiedene H&ouml;hen der Atmosph&auml;re</span>
+            <span class="name">Gau&szlig;&#8209;Gitter</span>
+            <span class="desc">Spektrale Modelle &middot; Breitenkreise nach mathematischer Quadratur angeordnet</span>
+          </span>
+          <span class="check"></span>
+        </button>
+        <button class="grid-card grid-latlon-card" data-grid="latlon">
+          <span class="icon icon-latlon" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <rect x="40" y="30" width="120" height="36" fill="currentColor"/>
+              <rect x="40" y="82" width="120" height="36" fill="currentColor"/>
+              <rect x="40" y="134" width="120" height="36" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="info">
+            <span class="name">L&auml;ngen&#8209;Breiten&#8209;Gitter</span>
+            <span class="desc">Das klassische Gitter &middot; gleicher Grad&#8209;Abstand, an den Polen stark gestaucht</span>
           </span>
           <span class="check"></span>
         </button>
@@ -357,7 +382,7 @@
         </span>
       </button>
       <div class="hint" id="hint">Tippe, um das Gitter in deinem Raum zu platzieren, oder drehe das 3D&#8209;Modell auf dem Bildschirm.</div>
-      <div class="build-tag">build v3</div>
+      <div class="build-tag">build v4</div>
     </main>
 
     <footer class="brand-footer">
@@ -402,24 +427,44 @@
 <script>
   var GRIDS = {
     icon: {
-      src: 'ICON_icosahedral_grid_bw.glb',
-      iosSrc: 'ICON_icosahedral_grid_bw.usdz',
-      scale: '1 1 1',
-      label: 'ICON&#8209;Gitter in AR ansehen',
-      institution: 'DWD',
-      gittertyp: 'Ikosaeder&#8209;Dreiecksgitter',
-      zellform: 'Dreiecke',
-      aufloesung: '&asymp; 13&nbsp;km (global)'
-    },
-    icon3d: {
       src: 'ICON_icosahedral_grid_3D_cutaway.glb',
       iosSrc: 'ICON_icosahedral_grid_3D_cutaway.usdz',
       scale: '1 1 1',
-      label: 'ICON&#8209;Gitter 3D in AR ansehen',
+      label: 'ICON&#8209;Gitter in AR ansehen',
       institution: 'DWD',
       gittertyp: 'Ikosaeder&#8209;Dreiecksgitter mit Vertikalschichten',
       zellform: 'Dreiecksprismen',
       aufloesung: '&asymp; 13&nbsp;km horizontal &middot; bis zu 90 Schichten vertikal'
+    },
+    cubedsphere: {
+      src: 'CubedSphere_grid_3D_cutaway.glb',
+      iosSrc: 'CubedSphere_grid_3D_cutaway.usdz',
+      scale: '1 1 1',
+      label: 'Kubus&#8209;Sph&auml;re in AR ansehen',
+      institution: 'u.&nbsp;a. NOAA (GFS)',
+      gittertyp: 'Kubus&#8209;Sph&auml;re (Cubed Sphere)',
+      zellform: 'Vierecke',
+      aufloesung: '&asymp; 13&nbsp;km horizontal, je Modellkonfiguration'
+    },
+    gaussian: {
+      src: 'Gaussian_grid_3D_cutaway.glb',
+      iosSrc: 'Gaussian_grid_3D_cutaway.usdz',
+      scale: '1 1 1',
+      label: 'Gau&szlig;&#8209;Gitter in AR ansehen',
+      institution: 'spektrale Modelle',
+      gittertyp: 'Gau&szlig;&#8209;Gitter (spektrales Transformationsgitter)',
+      zellform: 'Rechtecke, Breite variiert mit Breitengrad',
+      aufloesung: 'modellabh&auml;ngig'
+    },
+    latlon: {
+      src: 'LatLon_grid_3D_cutaway.glb',
+      iosSrc: 'LatLon_grid_3D_cutaway.usdz',
+      scale: '1 1 1',
+      label: 'L&auml;ngen&#8209;Breiten&#8209;Gitter in AR ansehen',
+      institution: 'weit verbreitet, u.&nbsp;a. in &auml;lteren Modellen',
+      gittertyp: 'Regul&auml;res L&auml;ngen&#8209;Breiten&#8209;Gitter',
+      zellform: 'Rechtecke, zu den Polen hin stark gestaucht',
+      aufloesung: 'z.&nbsp;B. 0,25&deg;&ndash;1&deg;'
     }
   };
 
@@ -483,7 +528,7 @@
   // so we can see *why* AR didn't launch instead of guessing.
   modelViewer.addEventListener('ar-status', function (ev) {
     if (ev.detail.status === 'failed' && buildTag) {
-      buildTag.textContent = 'build v3 — AR-Status: fehlgeschlagen';
+      buildTag.textContent = 'build v4 — AR-Status: fehlgeschlagen';
     }
   });
 
