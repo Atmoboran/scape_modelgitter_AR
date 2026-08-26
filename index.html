@@ -143,6 +143,11 @@
   .grid-cubedsphere-card{ background:var(--pastel-yellow); }
   .grid-gaussian-card{ background:var(--pastel-blue); }
   .grid-latlon-card{ background:var(--pastel-lavender); }
+  .grid-voronoi-card{ background:color-mix(in srgb, var(--green) 20%, white); }
+  .grid-hexicosahedral-card{ background:color-mix(in srgb, var(--mustard) 24%, white); }
+  .grid-reducedgaussian-card{ background:color-mix(in srgb, var(--cyan) 20%, white); }
+  .grid-stretched-card{ background:color-mix(in srgb, var(--orange) 18%, white); }
+  .grid-yinyang-card{ background:var(--mint); }
 
   .grid-card .icon{
     flex:none; width:42px; height:42px;
@@ -153,6 +158,11 @@
   .icon-cubedsphere{ color:var(--olive); }
   .icon-gaussian{ color:var(--navy); }
   .icon-latlon{ color:var(--purple); }
+  .icon-voronoi{ color:var(--green); }
+  .icon-hexicosahedral{ color:var(--mustard); }
+  .icon-reducedgaussian{ color:var(--cyan); }
+  .icon-stretched{ color:var(--orange); }
+  .icon-yinyang{ color:var(--red); }
 
   .grid-card .info{ flex:1; min-width:0; }
   .grid-card .name{ font-weight:800; font-size:14.5px; }
@@ -170,6 +180,23 @@
   }
   .readout div{ font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
   .readout b{ display:block; font-size:14px; font-weight:700; letter-spacing:0; margin-top:3px; text-transform:none; }
+
+  /* ============ LEXICON / ACCORDION ============ */
+  .lexicon{ margin-bottom:30px; border-top:2px solid var(--ink); }
+  .lexicon-item{ border-bottom:2px solid var(--ink); }
+  .lexicon-item summary{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:14px 2px; cursor:pointer; list-style:none;
+    font-weight:800; font-size:13.5px;
+  }
+  .lexicon-item summary::-webkit-details-marker{ display:none; }
+  .lexicon-item summary .plus{
+    flex:none; font-size:20px; font-weight:400; line-height:1;
+  }
+  .lexicon-item[open] summary .plus{ transform:rotate(45deg); }
+  .lexicon-item p{
+    margin:0 0 16px; padding:0 2px; font-size:13px; line-height:1.55; color:var(--ink);
+  }
 
   /* ============ CTA ============ */
   .cta-explain{ font-size:13px; }
@@ -362,6 +389,73 @@
           </span>
           <span class="check"></span>
         </button>
+        <button class="grid-card grid-voronoi-card" data-grid="voronoi">
+          <span class="icon icon-voronoi" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="70" cy="130" r="45" fill="currentColor"/>
+              <circle cx="145" cy="65" r="27" fill="currentColor"/>
+              <circle cx="155" cy="150" r="15" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="info">
+            <span class="name">Adaptive Voronoi&#8209;Gitter</span>
+            <span class="desc">U.&nbsp;a. MPAS (NCAR) &middot; Zellgr&ouml;&szlig;e passt sich der Region an, fein oder grob</span>
+          </span>
+          <span class="check"></span>
+        </button>
+        <button class="grid-card grid-hexicosahedral-card" data-grid="hexicosahedral">
+          <span class="icon icon-hexicosahedral" aria-hidden="true">
+            <svg viewBox="0 0 200 200"><polygon points="100,20 170,60 170,140 100,180 30,140 30,60" fill="currentColor"/></svg>
+          </span>
+          <span class="info">
+            <span class="name">Hexagonal&#8209;Ikosaeder&#8209;Gitter</span>
+            <span class="desc">Z.&nbsp;B. GME (DWD, bis 2015) &middot; &uuml;berwiegend Sechsecke, mit 12 F&uuml;nfecken</span>
+          </span>
+          <span class="check"></span>
+        </button>
+        <button class="grid-card grid-reducedgaussian-card" data-grid="reducedgaussian">
+          <span class="icon icon-reducedgaussian" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <rect x="80" y="24" width="40" height="30" fill="currentColor"/>
+              <rect x="45" y="60" width="110" height="30" fill="currentColor"/>
+              <rect x="45" y="110" width="110" height="30" fill="currentColor"/>
+              <rect x="80" y="146" width="40" height="30" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="info">
+            <span class="name">Reduziertes Gau&szlig;&#8209;Gitter</span>
+            <span class="desc">U.&nbsp;a. ECMWF IFS (bis 2016) &middot; weniger Zellen je Breitenkreis nahe der Pole</span>
+          </span>
+          <span class="check"></span>
+        </button>
+        <button class="grid-card grid-stretched-card" data-grid="stretched">
+          <span class="icon icon-stretched" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <rect x="35" y="35" width="130" height="130" fill="currentColor" opacity="0.35" transform="rotate(15 100 100)"/>
+              <rect x="70" y="70" width="60" height="60" fill="currentColor" transform="rotate(15 100 100)"/>
+            </svg>
+          </span>
+          <span class="info">
+            <span class="name">Gestrecktes &amp; rotiertes Gitter</span>
+            <span class="desc">Z.&nbsp;B. ICON&#8209;D2 (DWD) &middot; feinste Zellen genau &uuml;ber dem Zielgebiet</span>
+          </span>
+          <span class="check"></span>
+        </button>
+        <button class="grid-card grid-yinyang-card" data-grid="yinyang">
+          <span class="icon icon-yinyang" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="4"/>
+              <path fill="currentColor" d="M100,20 A80,80 0 0,1 100,180 A40,40 0 0,1 100,100 A40,40 0 0,0 100,20 Z"/>
+              <circle cx="100" cy="60" r="10" fill="#ffffff"/>
+              <circle cx="100" cy="140" r="10" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="info">
+            <span class="name">Yin&#8209;Yang&#8209;Gitter</span>
+            <span class="desc">Forschungsmodelle &middot; zwei &uuml;berlappende Panels, kein Pol&#8209;Problem</span>
+          </span>
+          <span class="check"></span>
+        </button>
       </div>
 
       <div class="readout" id="readout">
@@ -382,7 +476,47 @@
         </span>
       </button>
       <div class="hint" id="hint">Tippe, um das Gitter in deinem Raum zu platzieren, oder drehe das 3D&#8209;Modell auf dem Bildschirm.</div>
-      <div class="build-tag">build v4</div>
+      <div class="build-tag">build v5</div>
+
+      <div class="section-label" style="margin-top:34px;">Kurz erkl&auml;rt</div>
+      <div class="lexicon">
+        <details class="lexicon-item">
+          <summary>ICON&#8209;Gitter (Ikosaeder)<span class="plus">+</span></summary>
+          <p>Stell dir einen Fu&szlig;ball aus 20 Dreiecken vor, dessen Fl&auml;chen du immer weiter in kleinere Dreiecke zerlegst. Genau so baut der Deutsche Wetterdienst sein Rechengitter f&uuml;r ICON &mdash; dadurch sind die Zellen &uuml;berall auf der Erde fast gleich gro&szlig;.</p>
+        </details>
+        <details class="lexicon-item">
+          <summary>Kubus&#8209;Sph&auml;re<span class="plus">+</span></summary>
+          <p>Nimm einen W&uuml;rfel und blase ihn auf wie einen Ballon, bis er rund wird &mdash; &uuml;brig bleiben sechs leicht gew&ouml;lbte Fl&auml;chen aus viereckigen Zellen. So funktioniert die kubische Sph&auml;re, zum Beispiel beim US&#8209;Modell GFS.</p>
+        </details>
+        <details class="lexicon-item">
+          <summary>Gau&szlig;&#8209;Gitter<span class="plus">+</span></summary>
+          <p>Die Breitenkreise dieses Gitters liegen nicht einfach gleichm&auml;&szlig;ig verteilt, sondern nach einer mathematischen Formel &mdash; das macht bestimmte Berechnungen im Computer besonders effizient. Lange Zeit die Basis vieler globaler Wettermodelle.</p>
+        </details>
+        <details class="lexicon-item">
+          <summary>L&auml;ngen&#8209;Breiten&#8209;Gitter<span class="plus">+</span></summary>
+          <p>Das einfachste Gitter &uuml;berhaupt: gleich viele Grad zwischen jeder Zeile und Spalte, wie auf einer Weltkarte. Der Nachteil: An den Polen dr&auml;ngen sich die Zellen auf einen winzigen Punkt zusammen.</p>
+        </details>
+        <details class="lexicon-item">
+          <summary>Adaptive Voronoi&#8209;Gitter<span class="plus">+</span></summary>
+          <p>Hier passt sich die Zellgr&ouml;&szlig;e der Situation an: fein aufgel&ouml;st &uuml;ber einem heranziehenden Sturm oder einer Gebirgskette, gr&ouml;ber &uuml;ber ruhigen Ozeanfl&auml;chen. So spart das Modell Rechenzeit, ohne wichtige Details zu verpassen.</p>
+        </details>
+        <details class="lexicon-item">
+          <summary>Hexagonal&#8209;Ikosaeder&#8209;Gitter<span class="plus">+</span></summary>
+          <p>&Auml;hnlich wie beim ICON&#8209;Gitter, nur dass hier &uuml;berwiegend Sechsecke statt Dreiecke die Kugel bedecken &mdash; wie bei einem Fu&szlig;ball. Der Deutsche Wetterdienst nutzte ein solches Gitter bis 2015 in seinem Vorg&auml;ngermodell GME.</p>
+        </details>
+        <details class="lexicon-item">
+          <summary>Reduziertes Gau&szlig;&#8209;Gitter<span class="plus">+</span></summary>
+          <p>Eine cleverere Variante des Gau&szlig;&#8209;Gitters: In der N&auml;he der Pole werden einfach weniger Zellen pro Breitenkreis verwendet, weil dort ohnehin weniger Platz ist. Das spart Rechenleistung, ohne die Genauigkeit stark zu beeintr&auml;chtigen.</p>
+        </details>
+        <details class="lexicon-item">
+          <summary>Gestrecktes &amp; rotiertes Gitter<span class="plus">+</span></summary>
+          <p>F&uuml;r Regionalmodelle wird das Gitter gedreht und zusammengestaucht, sodass die feinsten, gleichm&auml;&szlig;igsten Zellen genau &uuml;ber dem interessierenden Gebiet liegen &mdash; zum Beispiel &uuml;ber Deutschland beim Modell ICON&#8209;D2.</p>
+        </details>
+        <details class="lexicon-item">
+          <summary>Yin&#8209;Yang&#8209;Gitter<span class="plus">+</span></summary>
+          <p>Zwei identische, sich &uuml;berlappende Gitterst&uuml;cke &mdash; wie beim gleichnamigen Symbol &mdash; decken zusammen die ganze Kugel ab. Der Trick: Keines der beiden St&uuml;cke muss jemals einen Pol enthalten, wodurch das kniffligste Problem aller Kugelgitter einfach verschwindet.</p>
+        </details>
+      </div>
     </main>
 
     <footer class="brand-footer">
@@ -465,6 +599,56 @@
       gittertyp: 'Regul&auml;res L&auml;ngen&#8209;Breiten&#8209;Gitter',
       zellform: 'Rechtecke, zu den Polen hin stark gestaucht',
       aufloesung: 'z.&nbsp;B. 0,25&deg;&ndash;1&deg;'
+    },
+    voronoi: {
+      src: 'AdaptiveVoronoi_grid_3D_cutaway.glb',
+      iosSrc: 'AdaptiveVoronoi_grid_3D_cutaway.usdz',
+      scale: '1 1 1',
+      label: 'Voronoi&#8209;Gitter in AR ansehen',
+      institution: 'u.&nbsp;a. MPAS (NCAR)',
+      gittertyp: 'Voronoi&#8209;Gitter mit variabler Aufl&ouml;sung',
+      zellform: 'Sechs&#8209; und F&uuml;nfecke, unterschiedlich gro&szlig;',
+      aufloesung: 'regional verfeinert, z.&nbsp;B. wenige bis mehrere Dutzend km'
+    },
+    hexicosahedral: {
+      src: 'HexIcosahedral_grid_3D_cutaway.glb',
+      iosSrc: 'HexIcosahedral_grid_3D_cutaway.usdz',
+      scale: '1 1 1',
+      label: 'Hexagonal&#8209;Ikosaeder&#8209;Gitter in AR ansehen',
+      institution: 'z.&nbsp;B. GME (DWD, 1999&ndash;2015)',
+      gittertyp: 'Hexagonal&#8209;Ikosaeder&#8209;Gitter',
+      zellform: 'Sechsecke, mit 12 F&uuml;nfecken',
+      aufloesung: 'GME: zuletzt &asymp; 20&nbsp;km global'
+    },
+    reducedgaussian: {
+      src: 'ReducedGaussian_grid_3D_cutaway.glb',
+      iosSrc: 'ReducedGaussian_grid_3D_cutaway.usdz',
+      scale: '1 1 1',
+      label: 'Reduziertes Gau&szlig;&#8209;Gitter in AR ansehen',
+      institution: 'u.&nbsp;a. ECMWF IFS (bis 2016)',
+      gittertyp: 'Reduziertes Gau&szlig;&#8209;Gitter',
+      zellform: 'Rechtecke, Anzahl je Breitenkreis sinkt zu den Polen',
+      aufloesung: 'modellabh&auml;ngig'
+    },
+    stretched: {
+      src: 'StretchedRotated_grid_3D_cutaway.glb',
+      iosSrc: 'StretchedRotated_grid_3D_cutaway.usdz',
+      scale: '1 1 1',
+      label: 'Gestrecktes Gitter in AR ansehen',
+      institution: 'z.&nbsp;B. ICON&#8209;D2 / COSMO (DWD), ARPEGE (M&eacute;t&eacute;o&#8209;France)',
+      gittertyp: 'Gestrecktes, rotiertes Gitter',
+      zellform: 'Rechtecke, im Fokusgebiet am gleichm&auml;&szlig;igsten',
+      aufloesung: 'z.&nbsp;B. ICON&#8209;D2: 2&nbsp;km &uuml;ber Deutschland'
+    },
+    yinyang: {
+      src: 'YinYang_grid_3D_cutaway.glb',
+      iosSrc: 'YinYang_grid_3D_cutaway.usdz',
+      scale: '1 1 1',
+      label: 'Yin&#8209;Yang&#8209;Gitter in AR ansehen',
+      institution: 'u.&nbsp;a. in Forschungsmodellen',
+      gittertyp: 'Yin&#8209;Yang&#8209;Gitter (zwei &uuml;berlappende Panels)',
+      zellform: 'Rechtecke, ohne Pol&#8209;Singularit&auml;t',
+      aufloesung: 'modellabh&auml;ngig'
     }
   };
 
@@ -528,7 +712,7 @@
   // so we can see *why* AR didn't launch instead of guessing.
   modelViewer.addEventListener('ar-status', function (ev) {
     if (ev.detail.status === 'failed' && buildTag) {
-      buildTag.textContent = 'build v4 — AR-Status: fehlgeschlagen';
+      buildTag.textContent = 'build v5 — AR-Status: fehlgeschlagen';
     }
   });
 
