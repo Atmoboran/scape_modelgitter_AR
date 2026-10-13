@@ -1,0 +1,62 @@
+/* Modellgitter – layout only (theme variables from theme/theme.css,
+   shared components from css/kit.css). */
+
+/* ---- strip of the nine grids (below the poster) ---- */
+.strip { position: relative; z-index: 2; }
+.strip button { padding: 6px 14px 6px 8px; }
+.strip .gi { flex: none; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; }
+.strip .gi svg { width: 20px; height: 20px; }
+.strip [aria-pressed="true"] .gi { outline: var(--line-width) solid var(--active-ink); }
+:root[data-view="desktop"] .strip { justify-content: safe center; }
+:root[data-view="desktop"] .strip button:first-child { border-left: var(--line-width) solid var(--line); }
+:root[data-view="desktop"] .strip button:not([aria-pressed="true"]):hover { background: var(--accent-pale); }
+.strip [data-grid="icon"] .gi { background: var(--g-icon-bg); color: var(--g-icon); }
+.strip [data-grid="cubedsphere"] .gi { background: var(--g-cubedsphere-bg); color: var(--g-cubedsphere); }
+.strip [data-grid="gaussian"] .gi { background: var(--g-gaussian-bg); color: var(--g-gaussian); }
+.strip [data-grid="latlon"] .gi { background: var(--g-latlon-bg); color: var(--g-latlon); }
+.strip [data-grid="voronoi"] .gi { background: var(--g-voronoi-bg); color: var(--g-voronoi); }
+.strip [data-grid="hexicosahedral"] .gi { background: var(--g-hexicosahedral-bg); color: var(--g-hexicosahedral); }
+.strip [data-grid="reducedgaussian"] .gi { background: var(--g-reducedgaussian-bg); color: var(--g-reducedgaussian); }
+.strip [data-grid="stretched"] .gi { background: var(--g-stretched-bg); color: var(--g-stretched); }
+.strip [data-grid="yinyang"] .gi { background: var(--g-yinyang-bg); color: var(--g-yinyang); }
+
+/* ---- name of the chosen grid ---- */
+.grid-name { font-size: clamp(28px, 3vw, 40px); overflow-wrap: break-word; hyphens: manual; }
+:root[data-view="mobile"] .grid-name { margin-bottom: 4px; }
+
+/* ---- the 3D model ---- */
+#stage { overflow: hidden; }
+model-viewer {
+  display: block; width: 100%; height: 100%;
+  background: var(--stage-bg);
+  --poster-color: transparent;
+  --progress-bar-color: var(--progress);
+}
+.stage-frame:fullscreen model-viewer, .stage-frame.is-full model-viewer { background: var(--viewer-bg); }
+.stage-frame:fullscreen, .stage-frame.is-full { background: var(--viewer-bg); }
+
+/* ---- AR button + notes ---- */
+.ar-row { display: flex; align-items: center; gap: 8px; margin: 4px 0 10px; }
+.ar-row .btn { flex: 1; justify-content: flex-start; text-align: left; }
+.ar-row .btn:disabled { cursor: wait; }
+.ar-note { font-size: 14px; line-height: 1.5; border-top: var(--line-width) solid var(--line); padding-top: 12px; margin: 4px 0 14px; max-width: 46em; }
+
+/* ---- fact sheet of the chosen grid ---- */
+.facts-head { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; }
+.facts-head .section-label { margin: 0; }
+.facts { margin: 8px 0 12px; border-top: var(--line-width) solid var(--line); border-bottom: var(--line-width) solid var(--line); padding: 10px 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px 18px; }
+.facts dt { font-size: 11px; font-weight: var(--fw-medium); letter-spacing: .08em; text-transform: var(--caps); }
+.facts dd { margin: 3px 0 0; font-size: 15px; line-height: 1.35; }
+.explain { font-size: 15.5px; }
+
+/* ---- schematic figure in the topics ---- */
+.figure { border: var(--line-width) solid var(--line); background: var(--stage-bg); padding: 12px 12px 8px; margin: 0 0 14px; max-width: 560px; }
+.figure svg { display: block; width: 100%; height: auto; }
+.figure figcaption { margin-top: 8px; font-size: 14px; line-height: 1.45; }
+
+/* ---- pager: counter in the middle ---- */
+.pager-count { display: flex; align-items: center; justify-content: center; padding: 0 10px; font-weight: var(--fw-medium); font-size: 14px; letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+:root[data-view="mobile"] .pager .home { min-height: 0; }
+:root[data-view="mobile"] .facts { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+:root[data-view="mobile"] .facts > div { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 10px; align-items: baseline; }
+:root[data-view="mobile"] .facts dd { margin: 0; }

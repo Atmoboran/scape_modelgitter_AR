@@ -1,334 +1,66 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Modellgitter in AR</title>
-<meta name="description" content="Erlebe die Rechengitter globaler Wettermodelle in Augmented Reality." />
-<script type="module" src="https://unpkg.com/@google/model-viewer@4.3.1/dist/model-viewer.min.js"></script>
+<meta name="description" content="">
+<!-- Structure only. Design: theme/ · texts: content/texts.de.js · layout: css/ · behaviour: js/ -->
+<script src="js/view.js" data-app="modellgitter"></script>
 <link rel="stylesheet" href="theme/theme.css">
-<style>
-  *{box-sizing:border-box;}
-  html,body{
-    margin:0; padding:0; min-height:100%;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:var(--font);
-  }
-  h1,h2,h3{font-family:inherit;}
-  b,strong{font-weight:var(--fw-medium);}
-  :focus-visible{outline:3px solid var(--focus); outline-offset:2px;}
-  img,svg{max-width:100%;}
-
-  .wrap{ max-width:600px; margin:0 auto; }
-
-  /* ============ WORDMARK / TOPBAR ============ */
-  .topbar{
-    display:flex; align-items:flex-end; justify-content:space-between;
-    padding:22px 20px 14px;
-  }
-  .topbar-tag{
-    font-size:11px; font-weight:var(--fw-medium); letter-spacing:.1em; text-transform:uppercase;
-    text-align:right; color:var(--ink); max-width:120px;
-  }
-
-  /* ============ POSTER HERO ============ */
-  .poster{
-    margin:0 20px 16px;
-    position:relative;
-    aspect-ratio:3.4/1;
-    overflow:hidden;
-  }
-  .poster-grid{
-    position:absolute; inset:0;
-    display:grid;
-    grid-template-columns:repeat(10,1fr);
-    grid-template-rows:1fr 1fr;
-  }
-  .q-orange{ grid-column:1/6; grid-row:1/2; background:var(--field-2); }
-  .q-yellow{ grid-column:6/11; grid-row:1/2; background:var(--field-1); }
-  .q-cream{ grid-column:1/8; grid-row:2/3; background:var(--field-3); }
-  .q-navy{ grid-column:8/11; grid-row:2/3; background:var(--field-4); }
-
-  .arch{
-    position:absolute; right:6%; top:10%;
-    width:34%;
-    color:var(--shape);
-  }
-  .arch svg{ display:block; width:100%; height:auto; }
-
-  .poster-copy{
-    position:absolute; left:0; right:0; bottom:0;
-    padding:0 18px 16px;
-    max-width:72%;
-  }
-  .poster-title{
-    margin:0 0 6px; font-weight:var(--fw-light); text-transform:uppercase;
-    font-size:clamp(20px,7vw,30px); line-height:.98; letter-spacing:-.01em;
-  }
-  /* ============ SCHEMATIC CARD ============ */
-  .photo-card{
-    margin:0 20px 26px;
-  }
-  .photo-card .schematic{
-    display:block; width:100%; height:auto;
-    border:2px solid var(--ink);
-    background:var(--c-cream);
-  }
-  .photo-cap{
-    margin-top:6px; font-size:11.5px; font-weight:var(--fw-medium); letter-spacing:.03em; color:var(--ink);
-  }
-
-  main{ padding:0 20px 30px; }
-
-  /* ============ SECTION LABELS ============ */
-  .section-label{
-    font-size:11px; font-weight:var(--fw-medium); letter-spacing:.12em; text-transform:uppercase;
-    margin:0 0 12px;
-  }
-
-  /* ============ EXPLAINER ============ */
-  .explainer{ margin-bottom:30px; }
-  .explainer h2{
-    margin:0 0 10px; font-size:19px; font-weight:var(--fw-medium); letter-spacing:-.01em;
-  }
-  p.blurb{
-    margin:0 0 14px; font-size:14.5px; line-height:1.6; color:var(--ink);
-  }
-
-  /* ============ GRID PICKER (horizontal chips) ============ */
-  .picker-scroll{
-    display:flex; gap:10px; overflow-x:auto; -webkit-overflow-scrolling:touch;
-    margin:0 -2px 16px; padding:2px 2px 8px; scrollbar-width:none;
-  }
-  .picker-scroll::-webkit-scrollbar{ display:none; }
-  .chip{
-    flex:none; width:74px;
-    display:flex; flex-direction:column; align-items:center; gap:6px;
-    border:2px solid transparent; background:none;
-    padding:10px 4px 8px; cursor:pointer; font-family:inherit;
-  }
-  .chip.selected{ border-color:var(--ink); }
-  .grid-icon-card{ background:var(--c-cream); }
-  .grid-cubedsphere-card{ background:var(--c-yellow-pastel); }
-  .grid-gaussian-card{ background:var(--c-ice); }
-  .grid-latlon-card{ background:var(--c-lavender); }
-  .grid-voronoi-card{ background:var(--c-mint); }
-  .grid-hexicosahedral-card{ background:var(--c-yellow-pale); }
-  .grid-reducedgaussian-card{ background:var(--c-pale-green); }
-  .grid-stretched-card{ background:var(--c-pink); }
-  .grid-yinyang-card{ background:var(--c-green); }
-
-  .chip .icon{ width:32px; height:32px; }
-  .chip .icon svg{ width:100%; height:100%; }
-  .icon-icon{ color:var(--c-rust); }
-  .icon-cubedsphere{ color:var(--c-olive); }
-  .icon-gaussian{ color:var(--c-navy); }
-  .icon-latlon{ color:var(--c-purple); }
-  .icon-voronoi{ color:var(--c-green-strong); }
-  .icon-hexicosahedral{ color:var(--c-gold); }
-  .icon-reducedgaussian{ color:var(--c-cyan); }
-  .icon-stretched{ color:var(--c-orange); }
-  .icon-yinyang{ color:var(--c-red); }
-
-  .chip-label{
-    font-size:11px; font-weight:var(--fw-medium); text-align:center; line-height:1.2;
-    text-transform:uppercase; letter-spacing:.01em;
-  }
-
-  /* ============ SELECTED GRID ROW ============ */
-  .selected-row{
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-    margin-bottom:18px;
-  }
-  .selected-name{ font-weight:var(--fw-medium); font-size:16px; }
-
-  .info-btn{
-    flex:none; display:flex; align-items:center; justify-content:center;
-    width:22px; height:22px;
-    border:2px solid var(--ink); background:var(--paper); color:var(--ink);
-    font-family:inherit; font-weight:var(--fw-medium); font-size:13px; font-style:italic;
-    cursor:pointer; padding:0;
-  }
-  .more-btn{
-    flex:none; display:flex; align-items:center; gap:7px;
-    border:2px solid var(--ink); background:var(--paper); color:var(--ink);
-    font-family:inherit; font-weight:var(--fw-medium); font-size:11.5px; text-transform:uppercase; letter-spacing:.03em;
-    padding:8px 12px; cursor:pointer;
-  }
-
-  .hero-link{
-    display:flex; align-items:center; gap:8px;
-    margin:0 0 22px;
-    background:none; border:none; padding:0; cursor:pointer;
-    font-family:inherit; color:var(--ink);
-    font-size:12px; font-weight:var(--fw-medium); text-transform:uppercase; letter-spacing:.03em;
-  }
-
-  /* ============ READOUT ============ */
-  .readout{
-    display:flex; gap:18px 26px; flex-wrap:wrap;
-    margin-bottom:26px; padding:16px 0; border-top:2px solid var(--ink); border-bottom:2px solid var(--ink);
-  }
-  .readout div{ font-size:11px; font-weight:var(--fw-medium); letter-spacing:.08em; text-transform:uppercase; }
-  .readout b{ display:block; font-size:14px; font-weight:var(--fw-medium); letter-spacing:0; margin-top:3px; text-transform:none; }
-
-  /* ============ MODAL / BOTTOM SHEET ============ */
-  .modal{
-    position:fixed; inset:0; z-index:30;
-    display:flex; align-items:flex-end; justify-content:center;
-    visibility:hidden; pointer-events:none;
-  }
-  .modal.active{ visibility:visible; pointer-events:auto; }
-  .modal-backdrop{
-    position:absolute; inset:0; background:var(--backdrop); border:none; padding:0; margin:0;
-  }
-  .modal-panel{
-    position:relative; z-index:1;
-    width:100%; max-width:600px; max-height:82vh; overflow-y:auto;
-    background:var(--paper); border-top:3px solid var(--ink);
-    padding:24px 20px 34px;
-  }
-  .modal-close{
-    position:absolute; top:14px; right:14px;
-    width:32px; height:32px; display:flex; align-items:center; justify-content:center;
-    background:var(--c-yellow-bright); border:2px solid var(--ink); color:var(--ink); cursor:pointer;
-  }
-  .modal-close svg{ width:16px; height:16px; }
-  .modal-panel h2{
-    margin:0 30px 14px 0; font-size:19px; font-weight:var(--fw-medium); letter-spacing:-.01em;
-  }
-  .modal-panel .readout{ margin-bottom:18px; }
-  .modal-panel .explain-text{
-    margin:0; font-size:13.5px; line-height:1.6; color:var(--ink);
-  }
-  .modal-panel .photo-card{ margin:0 0 20px; }
-
-  #ar-launch{
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    width:100%;
-    background:var(--c-yellow-bright); color:var(--ink); border:2px solid var(--ink);
-    font-family:inherit; font-weight:var(--fw-medium); font-size:15px; text-transform:uppercase; letter-spacing:.02em;
-    padding:16px 20px; cursor:pointer;
-  }
-  #ar-launch svg{width:19px; height:19px; flex:none;}
-  #ar-launch .sub{
-    display:block; font-size:11.5px; font-weight:var(--fw-medium); text-transform:none; letter-spacing:0; opacity:.75; margin-top:1px;
-  }
-  #ar-launch:disabled{opacity:.45; cursor:wait;}
-  .build-tag{
-    margin-top:6px; font-size:11px; font-weight:var(--fw-medium); color:var(--ink); text-align:center; opacity:.4;
-  }
-
-  /* ============ FOOTER ============ */
-  .brand-footer{
-    padding:26px 20px 34px; border-top:2px solid var(--ink);
-    font-size:11px; font-weight:var(--fw-medium); letter-spacing:.04em; text-transform:uppercase; line-height:1.6;
-  }
-
-  /* ============ AR / VIEWER OVERLAY ============ */
-  /* Kept rendered (not display:none) at all times so model-viewer
-     always has real layout dimensions — AR activation needs those
-     to be already correct at the moment activateAR() is called. */
-  #viewer-screen{
-    position:fixed; inset:0; z-index:20;
-    background:var(--viewer-bg);
-    visibility:hidden;
-    pointer-events:none;
-  }
-  #viewer-screen.active{
-    visibility:visible;
-    pointer-events:auto;
-  }
-
-  #close-viewer{
-    position:absolute; top:16px; left:16px; z-index:22;
-    display:flex; align-items:center; justify-content:center;
-    width:38px; height:38px;
-    background:var(--c-yellow-bright); border:2px solid var(--ink);
-    color:var(--ink); cursor:pointer;
-  }
-  #close-viewer svg{width:18px; height:18px;}
-
-  model-viewer{
-    width:100%; height:100%;
-    --poster-color: transparent;
-    --progress-bar-color: var(--c-yellow-bright);
-  }
-
-  #ar-button{
-    display:flex; align-items:center; gap:10px;
-    background:var(--c-yellow-bright); color:var(--ink); border:2px solid var(--ink);
-    font-family:var(--font); font-weight:var(--fw-medium); font-size:14px; text-transform:uppercase;
-    padding:14px 20px; cursor:pointer;
-  }
-  #ar-button svg{width:18px; height:18px; flex:none;}
-  #ar-button .sub{display:block; font-size:11px; font-weight:var(--fw-medium); text-transform:none; opacity:.75; margin-top:1px;}
-
-  .viewer-hint{
-    position:absolute; left:0; right:0; bottom:18px; z-index:21;
-    text-align:center; font-size:12px; font-weight:var(--fw-medium); color:var(--viewer-ink);
-    pointer-events:none;
-  }
-  .desk-note{ display:none; }
-
-  /* ============ DESKTOP ============
-     Kein AR am Desktop: das 3D-Modell steht direkt links auf der Seite und
-     lässt sich mit der Maus drehen; Gitterauswahl und Erklärungen rechts. */
-  @media (min-width:1000px){
-    .wrap{ max-width:1280px; }
-    .topbar{ padding:22px 32px 14px; --logo-size:36px; }
-    .poster{ aspect-ratio:auto; height:140px; margin:0 32px 24px; }
-    .arch{ width:200px; right:4%; }
-    .poster-title{ font-size:52px; }
-    main{ display:grid; grid-template-columns:minmax(0,1fr) minmax(340px,400px); gap:0 40px; padding:0 32px 40px; align-items:start; }
-    #viewer-screen{
-      position:relative; inset:auto; z-index:auto; visibility:visible; pointer-events:auto;
-      height:calc(100svh - 270px); min-height:420px;
-      background:var(--stage-bg); border:var(--line-width) solid var(--line);
-    }
-    #close-viewer, #ar-launch, #ar-button, .build-tag{ display:none; }
-    .viewer-hint{ color:var(--ink); }
-    .hero-link{ margin:0 0 20px; }
-    .picker-scroll{ flex-wrap:wrap; overflow:visible; }
-    .chip:hover{ border-color:var(--line); }
-    .desk-note{ display:block; font-size:14px; line-height:1.5; border-top:var(--line-width) solid var(--line); padding-top:14px; margin:0; }
-  }
-</style>
+<link rel="stylesheet" href="css/kit.css">
+<link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
-<div id="landing">
-  <div class="wrap">
-    <header class="topbar">
-      <span class="logo" data-brand="logo"></span>
-      <div class="topbar-tag">AR&#8209;Erlebnis</div>
-    </header>
+<header class="top">
+  <span class="logo" data-brand="logo"></span>
+  <div class="top-right">
+    <button type="button" class="view-toggle"></button>
+  </div>
+</header>
 
-    <div class="poster">
-      <div class="poster-grid">
-        <div class="q-orange"></div>
-        <div class="q-yellow"></div>
-        <div class="q-cream"></div>
-        <div class="q-navy"></div>
-      </div>
-      <div class="arch" aria-hidden="true">
-        <svg viewBox="0 0 400 200"><path fill="currentColor" d="M20,200 A180,180 0 0 1 380,200 L310,200 A110,110 0 0 0 90,200 Z"/></svg>
-      </div>
-      <div class="poster-copy">
-        <h1 class="poster-title">Modellgitter</h1>
-      </div>
+<div class="poster small">
+  <div class="f f1"></div><div class="f f2"></div><div class="f f3"></div>
+  <svg class="l2" viewBox="0 0 400 400" aria-hidden="true"><path fill="currentColor" d="M20,300 A180,180 0 0 1 380,300 L310,300 A110,110 0 0 0 90,300 Z"/></svg>
+  <svg class="l3" viewBox="0 0 400 400" aria-hidden="true">
+    <circle cx="200" cy="200" r="180"/>
+    <ellipse cx="200" cy="200" rx="95" ry="180"/>
+    <line x1="200" y1="20" x2="200" y2="380"/>
+    <line x1="20" y1="200" x2="380" y2="200"/>
+    <line x1="44" y1="110" x2="356" y2="110"/>
+    <line x1="44" y1="290" x2="356" y2="290"/>
+  </svg>
+  <div class="poster-text">
+    <h1 class="headline" data-t-html="poster.headline"></h1>
+    <p class="lead" data-t="poster.lead"></p>
+  </div>
+</div>
+
+<!-- Nine grids: scrollable strip of chips (style guide 6.4) -->
+<nav class="strip" id="strip" data-t-aria="stripAria">
+  <button type="button" data-grid="icon"><span class="gi" aria-hidden="true"><svg viewBox="0 0 200 200"><path fill="currentColor" d="M100,10 L190,180 L10,180 Z"/></svg></span><span data-t="grids.icon.short"></span></button>
+  <button type="button" data-grid="cubedsphere"><span class="gi" aria-hidden="true"><svg viewBox="0 0 200 200"><rect x="45" y="45" width="110" height="110" fill="currentColor"/></svg></span><span data-t="grids.cubedsphere.short"></span></button>
+  <button type="button" data-grid="gaussian"><span class="gi" aria-hidden="true"><svg viewBox="0 0 200 200"><rect x="65" y="30" width="70" height="36" fill="currentColor"/><rect x="35" y="82" width="130" height="36" fill="currentColor"/><rect x="65" y="134" width="70" height="36" fill="currentColor"/></svg></span><span data-t="grids.gaussian.short"></span></button>
+  <button type="button" data-grid="latlon"><span class="gi" aria-hidden="true"><svg viewBox="0 0 200 200"><rect x="40" y="30" width="120" height="36" fill="currentColor"/><rect x="40" y="82" width="120" height="36" fill="currentColor"/><rect x="40" y="134" width="120" height="36" fill="currentColor"/></svg></span><span data-t="grids.latlon.short"></span></button>
+  <button type="button" data-grid="voronoi"><span class="gi" aria-hidden="true"><svg viewBox="0 0 200 200"><circle cx="70" cy="130" r="45" fill="currentColor"/><circle cx="145" cy="65" r="27" fill="currentColor"/><circle cx="155" cy="150" r="15" fill="currentColor"/></svg></span><span data-t="grids.voronoi.short"></span></button>
+  <button type="button" data-grid="hexicosahedral"><span class="gi" aria-hidden="true"><svg viewBox="0 0 200 200"><polygon points="100,20 170,60 170,140 100,180 30,140 30,60" fill="currentColor"/></svg></span><span data-t="grids.hexicosahedral.short"></span></button>
+  <button type="button" data-grid="reducedgaussian"><span class="gi" aria-hidden="true"><svg viewBox="0 0 200 200"><rect x="80" y="24" width="40" height="30" fill="currentColor"/><rect x="45" y="60" width="110" height="30" fill="currentColor"/><rect x="45" y="110" width="110" height="30" fill="currentColor"/><rect x="80" y="146" width="40" height="30" fill="currentColor"/></svg></span><span data-t="grids.reducedgaussian.short"></span></button>
+  <button type="button" data-grid="stretched"><span class="gi" aria-hidden="true"><svg viewBox="0 0 200 200"><rect x="35" y="35" width="130" height="130" fill="currentColor" opacity="0.35" transform="rotate(15 100 100)"/><rect x="70" y="70" width="60" height="60" fill="currentColor" transform="rotate(15 100 100)"/></svg></span><span data-t="grids.stretched.short"></span></button>
+  <button type="button" data-grid="yinyang"><span class="gi" aria-hidden="true"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="4"/><path fill="currentColor" d="M100,20 A80,80 0 0,1 100,180 A40,40 0 0,1 100,100 A40,40 0 0,0 100,20 Z"/><circle cx="100" cy="60" r="10" style="fill:var(--paper)"/><circle cx="100" cy="140" r="10" fill="currentColor"/></svg></span><span data-t="grids.yinyang.short"></span></button>
+</nav>
+
+<main class="page">
+  <div class="lab">
+    <div class="lab-pre">
+      <div class="section-label" id="grid-count"></div>
+      <h2 class="h2-short grid-name" id="grid-name"></h2>
     </div>
 
-    <main>
-      <div id="viewer-screen">
-        <button id="close-viewer" aria-label="Ansicht schlie&szlig;en">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-        </button>
-
+    <div class="lab-stage">
+      <div class="stage-frame square fit" id="stage">
         <model-viewer
           id="viewer"
-          alt="3D&#8209;Modell eines globalen Wettermodell&#8209;Rechengitters"
           ar
           ar-modes="webxr scene-viewer quick-look"
           ar-scale="auto"
@@ -336,401 +68,117 @@
           camera-controls
           bounds="tight"
           touch-action="pan-y"
+          interaction-prompt="none"
           shadow-intensity="1"
           shadow-softness="0.9"
           exposure="1.05"
           environment-image="neutral"
-          camera-orbit="35deg 75deg auto"
-        >
-          <button slot="ar-button" id="ar-button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6m0 8v6M4.9 4.9l4.2 4.2m5.8 5.8l4.2 4.2M2 12h6m8 0h6M4.9 19.1l4.2-4.2m5.8-5.8l4.2-4.2"/></svg>
-            <span>
-              In deinem Raum ansehen
-              <span class="sub">&Ouml;ffnet deine Kamera</span>
-            </span>
-          </button>
+          camera-orbit="35deg 75deg auto">
+          <!-- the AR button sits below the stage (#ar-launch); this empty slot hides model-viewer's own -->
+          <span slot="ar-button" hidden></span>
         </model-viewer>
-
-        <div class="viewer-hint">Wische oder ziehe &uuml;ber den Bildschirm, um das Modell zu drehen und Details zu erkunden.</div>
       </div>
-      <div class="lab-side">
-      <button class="hero-link" id="open-explainer">
-        <span class="info-btn" aria-hidden="true">i</span>
-        Was ist ein Rechengitter?
-      </button>
-        <div class="section-label">Gitter ausw&auml;hlen</div>
-        <div class="picker-scroll" id="picker">
-          <button class="chip grid-icon-card selected" data-grid="icon">
-            <span class="icon icon-icon" aria-hidden="true">
-              <svg viewBox="0 0 200 200"><path fill="currentColor" d="M100,10 L190,180 L10,180 Z"/></svg>
-            </span>
-            <span class="chip-label">ICON</span>
-          </button>
-          <button class="chip grid-cubedsphere-card" data-grid="cubedsphere">
-            <span class="icon icon-cubedsphere" aria-hidden="true">
-              <svg viewBox="0 0 200 200"><rect x="45" y="45" width="110" height="110" fill="currentColor"/></svg>
-            </span>
-            <span class="chip-label">Kubus</span>
-          </button>
-          <button class="chip grid-gaussian-card" data-grid="gaussian">
-            <span class="icon icon-gaussian" aria-hidden="true">
-              <svg viewBox="0 0 200 200">
-                <rect x="65" y="30" width="70" height="36" fill="currentColor"/>
-                <rect x="35" y="82" width="130" height="36" fill="currentColor"/>
-                <rect x="65" y="134" width="70" height="36" fill="currentColor"/>
-              </svg>
-            </span>
-            <span class="chip-label">Gau&szlig;</span>
-          </button>
-          <button class="chip grid-latlon-card" data-grid="latlon">
-            <span class="icon icon-latlon" aria-hidden="true">
-              <svg viewBox="0 0 200 200">
-                <rect x="40" y="30" width="120" height="36" fill="currentColor"/>
-                <rect x="40" y="82" width="120" height="36" fill="currentColor"/>
-                <rect x="40" y="134" width="120" height="36" fill="currentColor"/>
-              </svg>
-            </span>
-            <span class="chip-label">Lat/Lon</span>
-          </button>
-          <button class="chip grid-voronoi-card" data-grid="voronoi">
-            <span class="icon icon-voronoi" aria-hidden="true">
-              <svg viewBox="0 0 200 200">
-                <circle cx="70" cy="130" r="45" fill="currentColor"/>
-                <circle cx="145" cy="65" r="27" fill="currentColor"/>
-                <circle cx="155" cy="150" r="15" fill="currentColor"/>
-              </svg>
-            </span>
-            <span class="chip-label">Voronoi</span>
-          </button>
-          <button class="chip grid-hexicosahedral-card" data-grid="hexicosahedral">
-            <span class="icon icon-hexicosahedral" aria-hidden="true">
-              <svg viewBox="0 0 200 200"><polygon points="100,20 170,60 170,140 100,180 30,140 30,60" fill="currentColor"/></svg>
-            </span>
-            <span class="chip-label">Hex</span>
-          </button>
-          <button class="chip grid-reducedgaussian-card" data-grid="reducedgaussian">
-            <span class="icon icon-reducedgaussian" aria-hidden="true">
-              <svg viewBox="0 0 200 200">
-                <rect x="80" y="24" width="40" height="30" fill="currentColor"/>
-                <rect x="45" y="60" width="110" height="30" fill="currentColor"/>
-                <rect x="45" y="110" width="110" height="30" fill="currentColor"/>
-                <rect x="80" y="146" width="40" height="30" fill="currentColor"/>
-              </svg>
-            </span>
-            <span class="chip-label">Red. Gau&szlig;</span>
-          </button>
-          <button class="chip grid-stretched-card" data-grid="stretched">
-            <span class="icon icon-stretched" aria-hidden="true">
-              <svg viewBox="0 0 200 200">
-                <rect x="35" y="35" width="130" height="130" fill="currentColor" opacity="0.35" transform="rotate(15 100 100)"/>
-                <rect x="70" y="70" width="60" height="60" fill="currentColor" transform="rotate(15 100 100)"/>
-              </svg>
-            </span>
-            <span class="chip-label">Gestreckt</span>
-          </button>
-          <button class="chip grid-yinyang-card" data-grid="yinyang">
-            <span class="icon icon-yinyang" aria-hidden="true">
-              <svg viewBox="0 0 200 200">
-                <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="4"/>
-                <path fill="currentColor" d="M100,20 A80,80 0 0,1 100,180 A40,40 0 0,1 100,100 A40,40 0 0,0 100,20 Z"/>
-                <circle cx="100" cy="60" r="10" style="fill:var(--paper)"/>
-                <circle cx="100" cy="140" r="10" fill="currentColor"/>
-              </svg>
-            </span>
-            <span class="chip-label">Yin&#8209;Yang</span>
-          </button>
-        </div>
-
-        <div class="selected-row">
-          <span class="selected-name" id="selected-name">ICON&#8209;Gitter (Ikosaeder)</span>
-          <button class="more-btn" id="open-grid-info">
-            <span class="info-btn" aria-hidden="true">i</span>
-            Mehr erfahren
-          </button>
-        </div>
-
-        <button id="ar-launch" disabled>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6m0 8v6M4.9 4.9l4.2 4.2m5.8 5.8l4.2 4.2M2 12h6m8 0h6M4.9 19.1l4.2-4.2m5.8-5.8l4.2-4.2"/></svg>
-          <span>
-            <span id="ar-launch-label">In AR ansehen</span>
-            <span class="sub">&Ouml;ffnet deine Kamera</span>
-          </span>
-        </button>
-        <div class="build-tag">build v6</div>
-        <p class="desk-note">Augmented Reality gibt es nur auf dem Handy oder Tablet: Öffne diese Seite dort und tippe auf „In AR ansehen“. Hier am Bildschirm kannst du das Gitter mit der Maus drehen und heranzoomen.</p>
-      </div>
-    </main>
-
-    <footer class="brand-footer">
-      <span data-brand="claim"></span><br><span data-brand="name"></span>
-    </footer>
-  </div>
-</div>
-
-<div class="modal" id="modal-explainer">
-  <button class="modal-backdrop" aria-label="Schlie&szlig;en" data-close-modal></button>
-  <div class="modal-panel">
-    <button class="modal-close" data-close-modal aria-label="Schlie&szlig;en">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-    </button>
-    <h2>Was ist ein Rechengitter?</h2>
-    <p class="blurb">
-      Ein Wettermodell kann die Atmosph&auml;re nicht als Ganzes berechnen &mdash; daf&uuml;r ist sie zu komplex. Stattdessen zerlegen Meteorolog&#8239;:&#8239;innen die Erdoberfl&auml;che in Millionen kleiner Zellen: ein Rechengitter. Und weil die Atmosph&auml;re auch nach oben hin dick ist, wird jede dieser Fl&auml;chen zus&auml;tzlich in mehrere Schichten &uuml;bereinander unterteilt &mdash; aus dem zweidimensionalen Gitter wird so ein dreidimensionales Raster aus Zellen. F&uuml;r jede einzelne Zelle l&ouml;st der Supercomputer die physikalischen Gleichungen von Wind, Temperatur und Feuchte &mdash; Zelle f&uuml;r Zelle, alle paar Minuten neu. Je kleiner die Zellen, desto feiner die Details, die das Modell erfassen kann: von riesigen Tiefdruckgebieten bis hinunter zu einzelnen Gewitterzellen. Kleinere Zellen bedeuten aber auch mehr Rechenaufwand &mdash; die Aufl&ouml;sung eines Modells ist deshalb immer ein Kompromiss zwischen Genauigkeit und Rechenzeit.
-    </p>
-    <p class="blurb">
-      Eine Kugel l&uuml;ckenlos und gleichm&auml;&szlig;ig in Zellen aufzuteilen, ist &uuml;berraschend schwierig &mdash; und jeder Wetterdienst hat daf&uuml;r seine eigene L&ouml;sung entwickelt. Das einfachste L&auml;ngen&#8209;Breiten&#8209;Gitter legt Zellen entlang gleicher Grad&#8209;Abst&auml;nde an, staucht sie dadurch aber an den Polen fast auf einen Punkt zusammen. Das Gau&szlig;&#8209;Gitter mildert dieses Problem, indem es die Breitenkreise nach einem mathematischen Verfahren anordnet &mdash; lange Zeit die Grundlage vieler spektraler Modelle. Die kubische Sph&auml;re, wie sie das US&#8209;Modell GFS nutzt, projiziert stattdessen einen W&uuml;rfel auf die Kugel und erh&auml;lt so sechs nahezu gleichf&ouml;rmige Fl&auml;chen aus Vierecken. Der Deutsche Wetterdienst wiederum setzt bei ICON auf ein Gitter aus lauter Dreiecken, die aus einem zwanzigfl&auml;chigen Ikosaeder verfeinert werden &mdash; fast &uuml;berall gleich gro&szlig;, egal ob &Auml;quator oder Pol.
-    </p>
-    <figure class="photo-card">
-      <svg class="schematic" viewBox="0 0 400 220" role="img" aria-label="Schematische Darstellung eines Dreiecksgitters und eines rautenförmigen Gitters auf einer Kugel">
-        <rect x="0" y="0" width="400" height="220" style="fill:var(--c-cream)"/>
-        <line x1="200" y1="14" x2="200" y2="206" stroke="currentColor" stroke-width="2"/>
-        <circle cx="100" cy="110" r="88" fill="none" stroke="currentColor" stroke-width="3"/>
-        <g style="stroke:var(--c-rust)" stroke-width="3" fill="none" stroke-linecap="round">
-          <line x1="100" y1="110" x2="188" y2="110"/>
-          <line x1="100" y1="110" x2="144" y2="186"/>
-          <line x1="100" y1="110" x2="56" y2="186"/>
-          <line x1="100" y1="110" x2="12" y2="110"/>
-          <line x1="100" y1="110" x2="56" y2="34"/>
-          <line x1="100" y1="110" x2="144" y2="34"/>
-          <path d="M188,110 L144,186 L56,186 L12,110 L56,34 L144,34 Z"/>
-        </g>
-        <circle cx="300" cy="110" r="88" fill="none" stroke="currentColor" stroke-width="3"/>
-        <g style="fill:var(--c-navy)">
-          <rect x="286" y="46" width="28" height="28" transform="rotate(45 300 60)"/>
-          <rect x="248" y="84" width="28" height="28" transform="rotate(45 262 98)"/>
-          <rect x="324" y="84" width="28" height="28" transform="rotate(45 338 98)"/>
-          <rect x="286" y="122" width="28" height="28" transform="rotate(45 300 136)"/>
-          <rect x="248" y="146" width="26" height="26" transform="rotate(45 261 159)"/>
-          <rect x="324" y="146" width="26" height="26" transform="rotate(45 337 159)"/>
-        </g>
-      </svg>
-      <figcaption class="photo-cap">Zwei Wege, eine Kugel in Rechenzellen zu zerlegen &mdash; schematische Darstellung</figcaption>
-    </figure>
-  </div>
-</div>
-
-<div class="modal" id="modal-grid-info">
-  <button class="modal-backdrop" aria-label="Schlie&szlig;en" data-close-modal></button>
-  <div class="modal-panel">
-    <button class="modal-close" data-close-modal aria-label="Schlie&szlig;en">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-    </button>
-    <h2 id="mi-name">ICON&#8209;Gitter (Ikosaeder)</h2>
-    <div class="readout">
-      <div>Institution<b id="mi-institution">DWD</b></div>
-      <div>Gittertyp<b id="mi-gittertyp">Ikosaeder&#8209;Dreiecksgitter</b></div>
-      <div>Zellform<b id="mi-zellform">Dreiecke</b></div>
-      <div>Aufl&ouml;sung<b id="mi-aufloesung">&asymp; 13&nbsp;km (global)</b></div>
+      <p class="ar-note" id="model-error" hidden></p>
     </div>
-    <p class="explain-text" id="mi-explain"></p>
+
+    <div class="lab-post">
+      <p class="hint" data-t="hint"></p>
+
+      <div class="ar-row" id="ar-row">
+        <button type="button" class="btn big primary" id="ar-launch" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v6m0 8v6M4.9 4.9l4.2 4.2m5.8 5.8l4.2 4.2M2 12h6m8 0h6M4.9 19.1l4.2-4.2m5.8-5.8l4.2-4.2"/></svg>
+          <span><span id="ar-label"></span><span class="sub" data-t="ar.sub"></span></span>
+        </button>
+        <button type="button" class="info" aria-controls="ar-help" data-t-aria="ar.infoAria"></button>
+      </div>
+      <div class="info-note" id="ar-help" hidden data-t-html="ar.note"></div>
+      <p class="ar-note" id="ar-desk" hidden data-t="ar.desk"></p>
+      <p class="ar-note" id="ar-failed" hidden data-t="ar.failed"></p>
+
+      <div class="facts-head">
+        <span class="section-label" data-t="facts.title"></span>
+        <button type="button" class="info" aria-controls="facts-help" data-t-aria="facts.infoAria"></button>
+      </div>
+      <div class="info-note" id="facts-help" hidden data-t-html="facts.note"></div>
+      <dl class="facts" aria-live="polite">
+        <div><dt data-t="facts.institution"></dt><dd id="f-institution"></dd></div>
+        <div><dt data-t="facts.type"></dt><dd id="f-type"></dd></div>
+        <div><dt data-t="facts.cells"></dt><dd id="f-cells"></dd></div>
+        <div><dt data-t="facts.resolution"></dt><dd id="f-resolution"></dd></div>
+      </dl>
+      <p class="text explain" id="f-explain"></p>
+
+      <div class="tasks" id="mg-tasks">
+        <h3 data-t="tasks.title"></h3>
+        <ul>
+          <li data-task="turn"><span class="box"></span><span data-t="tasks.turn"></span></li>
+          <li data-task="zoom"><span class="box"></span><span data-t="tasks.zoom"></span></li>
+          <li data-task="three"><span class="box"></span><span data-t="tasks.three"></span></li>
+        </ul>
+        <div class="status" id="task-status"></div>
+      </div>
+      <div class="merke locked" data-for="mg-tasks">
+        <h3 data-t="merke.title"></h3>
+        <p data-t="merke.text"></p>
+        <span class="locked-note"></span>
+      </div>
+    </div>
   </div>
-</div>
+
+  <div class="topics">
+    <details class="topic"><summary data-t="topics.what.title"></summary><div class="topic-body" data-t-html="topics.what.body"></div></details>
+    <details class="topic">
+      <summary data-t="topics.why.title"></summary>
+      <div class="topic-body">
+        <div data-t-html="topics.why.body"></div>
+        <figure class="figure">
+          <svg viewBox="0 0 400 220" role="img" data-t-aria="topics.why.figAria">
+            <line x1="200" y1="14" x2="200" y2="206" stroke="currentColor" stroke-width="2"/>
+            <circle cx="100" cy="110" r="88" fill="none" stroke="currentColor" stroke-width="3"/>
+            <g style="stroke:var(--fig-tri)" stroke-width="3" fill="none" stroke-linecap="round">
+              <line x1="100" y1="110" x2="188" y2="110"/>
+              <line x1="100" y1="110" x2="144" y2="186"/>
+              <line x1="100" y1="110" x2="56" y2="186"/>
+              <line x1="100" y1="110" x2="12" y2="110"/>
+              <line x1="100" y1="110" x2="56" y2="34"/>
+              <line x1="100" y1="110" x2="144" y2="34"/>
+              <path d="M188,110 L144,186 L56,186 L12,110 L56,34 L144,34 Z"/>
+            </g>
+            <circle cx="300" cy="110" r="88" fill="none" stroke="currentColor" stroke-width="3"/>
+            <g style="fill:var(--fig-quad)">
+              <rect x="286" y="46" width="28" height="28" transform="rotate(45 300 60)"/>
+              <rect x="248" y="84" width="28" height="28" transform="rotate(45 262 98)"/>
+              <rect x="324" y="84" width="28" height="28" transform="rotate(45 338 98)"/>
+              <rect x="286" y="122" width="28" height="28" transform="rotate(45 300 136)"/>
+              <rect x="248" y="146" width="26" height="26" transform="rotate(45 261 159)"/>
+              <rect x="324" y="146" width="26" height="26" transform="rotate(45 337 159)"/>
+            </g>
+          </svg>
+          <figcaption data-t="topics.why.figCaption"></figcaption>
+        </figure>
+      </div>
+    </details>
+    <details class="topic"><summary data-t="topics.simplified.title"></summary><div class="topic-body" data-t-html="topics.simplified.body"></div></details>
+  </div>
+
+  <nav class="pager" data-t-aria="pager.aria">
+    <button type="button" class="btn prev" id="pager-prev"><span aria-hidden="true">←</span><span class="t" id="pager-prev-name"></span></button>
+    <span class="home pager-count" id="pager-count"></span>
+    <button type="button" class="btn next" id="pager-next"><span class="t" id="pager-next-name"></span><span aria-hidden="true">→</span></button>
+  </nav>
+</main>
+
+<footer class="foot">
+  <p class="sources" data-t="sources"></p>
+  <p class="brand-line" data-brand="line"></p>
+</footer>
 
 <script src="theme/theme.js"></script>
+<script src="content/texts.de.js"></script>
+<script src="js/texts.js"></script>
 <script src="js/brand.js"></script>
-<script>
-  var GRIDS = {
-    icon: {
-      src: 'ICON_icosahedral_grid_3D_cutaway.glb',
-      iosSrc: 'ICON_icosahedral_grid_3D_cutaway.usdz',
-      scale: '1 1 1',
-      label: 'ICON&#8209;Gitter in AR ansehen',
-      name: 'ICON&#8209;Gitter (Ikosaeder)',
-      institution: 'DWD',
-      gittertyp: 'Ikosaeder&#8209;Dreiecksgitter mit Vertikalschichten',
-      zellform: 'Dreiecksprismen',
-      aufloesung: '&asymp; 13&nbsp;km horizontal &middot; bis zu 90 Schichten vertikal',
-      explain: 'Stell dir einen Fu&szlig;ball aus 20 Dreiecken vor, dessen Fl&auml;chen du immer weiter in kleinere Dreiecke zerlegst. Genau so baut der Deutsche Wetterdienst sein Rechengitter f&uuml;r ICON &mdash; dadurch sind die Zellen &uuml;berall auf der Erde fast gleich gro&szlig;.'
-    },
-    cubedsphere: {
-      src: 'CubedSphere_grid_3D_cutaway.glb',
-      iosSrc: 'CubedSphere_grid_3D_cutaway.usdz',
-      scale: '1 1 1',
-      label: 'Kubus&#8209;Sph&auml;re in AR ansehen',
-      name: 'Kubus&#8209;Sph&auml;re',
-      institution: 'u.&nbsp;a. NOAA (GFS)',
-      gittertyp: 'Kubus&#8209;Sph&auml;re (Cubed Sphere)',
-      zellform: 'Vierecke',
-      aufloesung: '&asymp; 13&nbsp;km horizontal, je Modellkonfiguration',
-      explain: 'Nimm einen W&uuml;rfel und blase ihn auf wie einen Ballon, bis er rund wird &mdash; &uuml;brig bleiben sechs leicht gew&ouml;lbte Fl&auml;chen aus viereckigen Zellen. So funktioniert die kubische Sph&auml;re, zum Beispiel beim US&#8209;Modell GFS.'
-    },
-    gaussian: {
-      src: 'Gaussian_grid_3D_cutaway.glb',
-      iosSrc: 'Gaussian_grid_3D_cutaway.usdz',
-      scale: '1 1 1',
-      label: 'Gau&szlig;&#8209;Gitter in AR ansehen',
-      name: 'Gau&szlig;&#8209;Gitter',
-      institution: 'spektrale Modelle',
-      gittertyp: 'Gau&szlig;&#8209;Gitter (spektrales Transformationsgitter)',
-      zellform: 'Rechtecke, Breite variiert mit Breitengrad',
-      aufloesung: 'modellabh&auml;ngig',
-      explain: 'Die Breitenkreise dieses Gitters liegen nicht einfach gleichm&auml;&szlig;ig verteilt, sondern nach einer mathematischen Formel &mdash; das macht bestimmte Berechnungen im Computer besonders effizient. Lange Zeit die Basis vieler globaler Wettermodelle.'
-    },
-    latlon: {
-      src: 'LatLon_grid_3D_cutaway.glb',
-      iosSrc: 'LatLon_grid_3D_cutaway.usdz',
-      scale: '1 1 1',
-      label: 'L&auml;ngen&#8209;Breiten&#8209;Gitter in AR ansehen',
-      name: 'L&auml;ngen&#8209;Breiten&#8209;Gitter',
-      institution: 'weit verbreitet, u.&nbsp;a. in &auml;lteren Modellen',
-      gittertyp: 'Regul&auml;res L&auml;ngen&#8209;Breiten&#8209;Gitter',
-      zellform: 'Rechtecke, zu den Polen hin stark gestaucht',
-      aufloesung: 'z.&nbsp;B. 0,25&deg;&ndash;1&deg;',
-      explain: 'Das einfachste Gitter &uuml;berhaupt: gleich viele Grad zwischen jeder Zeile und Spalte, wie auf einer Weltkarte. Der Nachteil: An den Polen dr&auml;ngen sich die Zellen auf einen winzigen Punkt zusammen.'
-    },
-    voronoi: {
-      src: 'AdaptiveVoronoi_grid_3D_cutaway.glb',
-      iosSrc: 'AdaptiveVoronoi_grid_3D_cutaway.usdz',
-      scale: '1 1 1',
-      label: 'Voronoi&#8209;Gitter in AR ansehen',
-      name: 'Adaptive Voronoi&#8209;Gitter',
-      institution: 'u.&nbsp;a. MPAS (NCAR)',
-      gittertyp: 'Voronoi&#8209;Gitter mit variabler Aufl&ouml;sung',
-      zellform: 'Sechs&#8209; und F&uuml;nfecke, unterschiedlich gro&szlig;',
-      aufloesung: 'regional verfeinert, z.&nbsp;B. wenige bis mehrere Dutzend km',
-      explain: 'Hier passt sich die Zellgr&ouml;&szlig;e der Situation an: fein aufgel&ouml;st &uuml;ber einem heranziehenden Sturm oder einer Gebirgskette, gr&ouml;ber &uuml;ber ruhigen Ozeanfl&auml;chen. So spart das Modell Rechenzeit, ohne wichtige Details zu verpassen.'
-    },
-    hexicosahedral: {
-      src: 'HexIcosahedral_grid_3D_cutaway.glb',
-      iosSrc: 'HexIcosahedral_grid_3D_cutaway.usdz',
-      scale: '1 1 1',
-      label: 'Hexagonal&#8209;Ikosaeder&#8209;Gitter in AR ansehen',
-      name: 'Hexagonal&#8209;Ikosaeder&#8209;Gitter',
-      institution: 'z.&nbsp;B. GME (DWD, 1999&ndash;2015)',
-      gittertyp: 'Hexagonal&#8209;Ikosaeder&#8209;Gitter',
-      zellform: 'Sechsecke, mit 12 F&uuml;nfecken',
-      aufloesung: 'GME: zuletzt &asymp; 20&nbsp;km global',
-      explain: '&Auml;hnlich wie beim ICON&#8209;Gitter, nur dass hier &uuml;berwiegend Sechsecke statt Dreiecke die Kugel bedecken &mdash; wie bei einem Fu&szlig;ball. Der Deutsche Wetterdienst nutzte ein solches Gitter bis 2015 in seinem Vorg&auml;ngermodell GME.'
-    },
-    reducedgaussian: {
-      src: 'ReducedGaussian_grid_3D_cutaway.glb',
-      iosSrc: 'ReducedGaussian_grid_3D_cutaway.usdz',
-      scale: '1 1 1',
-      label: 'Reduziertes Gau&szlig;&#8209;Gitter in AR ansehen',
-      name: 'Reduziertes Gau&szlig;&#8209;Gitter',
-      institution: 'u.&nbsp;a. ECMWF IFS (bis 2016)',
-      gittertyp: 'Reduziertes Gau&szlig;&#8209;Gitter',
-      zellform: 'Rechtecke, Anzahl je Breitenkreis sinkt zu den Polen',
-      aufloesung: 'modellabh&auml;ngig',
-      explain: 'Eine cleverere Variante des Gau&szlig;&#8209;Gitters: In der N&auml;he der Pole werden einfach weniger Zellen pro Breitenkreis verwendet, weil dort ohnehin weniger Platz ist. Das spart Rechenleistung, ohne die Genauigkeit stark zu beeintr&auml;chtigen.'
-    },
-    stretched: {
-      src: 'StretchedRotated_grid_3D_cutaway.glb',
-      iosSrc: 'StretchedRotated_grid_3D_cutaway.usdz',
-      scale: '1 1 1',
-      label: 'Gestrecktes Gitter in AR ansehen',
-      name: 'Gestrecktes &amp; rotiertes Gitter',
-      institution: 'z.&nbsp;B. ICON&#8209;D2 / COSMO (DWD), ARPEGE (M&eacute;t&eacute;o&#8209;France)',
-      gittertyp: 'Gestrecktes, rotiertes Gitter',
-      zellform: 'Rechtecke, im Fokusgebiet am gleichm&auml;&szlig;igsten',
-      aufloesung: 'z.&nbsp;B. ICON&#8209;D2: 2&nbsp;km &uuml;ber Deutschland',
-      explain: 'F&uuml;r Regionalmodelle wird das Gitter gedreht und zusammengestaucht, sodass die feinsten, gleichm&auml;&szlig;igsten Zellen genau &uuml;ber dem interessierenden Gebiet liegen &mdash; zum Beispiel &uuml;ber Deutschland beim Modell ICON&#8209;D2.'
-    },
-    yinyang: {
-      src: 'YinYang_grid_3D_cutaway.glb',
-      iosSrc: 'YinYang_grid_3D_cutaway.usdz',
-      scale: '1 1 1',
-      label: 'Yin&#8209;Yang&#8209;Gitter in AR ansehen',
-      name: 'Yin&#8209;Yang&#8209;Gitter',
-      institution: 'u.&nbsp;a. in Forschungsmodellen',
-      gittertyp: 'Yin&#8209;Yang&#8209;Gitter (zwei &uuml;berlappende Panels)',
-      zellform: 'Rechtecke, ohne Pol&#8209;Singularit&auml;t',
-      aufloesung: 'modellabh&auml;ngig',
-      explain: 'Zwei identische, sich &uuml;berlappende Gitterst&uuml;cke &mdash; wie beim gleichnamigen Symbol &mdash; decken zusammen die ganze Kugel ab. Der Trick: Keines der beiden St&uuml;cke muss jemals einen Pol enthalten, wodurch das kniffligste Problem aller Kugelgitter einfach verschwindet.'
-    }
-  };
-
-  var viewerScreen = document.getElementById('viewer-screen');
-  var modelViewer = document.getElementById('viewer');
-  var arLaunch = document.getElementById('ar-launch');
-  var arLaunchLabel = document.getElementById('ar-launch-label');
-  var picker = document.getElementById('picker');
-  var buildTag = document.querySelector('.build-tag');
-
-  var selectedName = document.getElementById('selected-name');
-  var miName = document.getElementById('mi-name');
-  var miInstitution = document.getElementById('mi-institution');
-  var miGittertyp = document.getElementById('mi-gittertyp');
-  var miZellform = document.getElementById('mi-zellform');
-  var miAufloesung = document.getElementById('mi-aufloesung');
-  var miExplain = document.getElementById('mi-explain');
-
-  var current = 'icon';
-  var modelReady = false;
-
-  function loadGrid(key) {
-    var grid = GRIDS[key];
-    current = key;
-    modelReady = false;
-    arLaunch.disabled = true;
-    arLaunchLabel.innerHTML = grid.label;
-    selectedName.innerHTML = grid.name;
-    miName.innerHTML = grid.name;
-    miInstitution.innerHTML = grid.institution;
-    miGittertyp.innerHTML = grid.gittertyp;
-    miZellform.textContent = grid.zellform;
-    miAufloesung.innerHTML = grid.aufloesung;
-    miExplain.innerHTML = grid.explain;
-
-    modelViewer.setAttribute('ios-src', grid.iosSrc);
-    modelViewer.setAttribute('scale', grid.scale);
-    modelViewer.setAttribute('src', grid.src);
-  }
-
-  modelViewer.addEventListener('load', function () {
-    modelReady = true;
-    arLaunch.disabled = false;
-  });
-
-  picker.addEventListener('click', function (ev) {
-    var card = ev.target.closest('.chip');
-    if (!card) return;
-    var key = card.getAttribute('data-grid');
-    if (key === current) return;
-    var cards = picker.querySelectorAll('.chip');
-    for (var i = 0; i < cards.length; i++) cards[i].classList.remove('selected');
-    card.classList.add('selected');
-    loadGrid(key);
-  });
-
-  arLaunch.addEventListener('click', function () {
-    viewerScreen.classList.add('active');
-    modelViewer.activateAR();
-  });
-
-  document.getElementById('close-viewer').addEventListener('click', function () {
-    viewerScreen.classList.remove('active');
-  });
-
-  function openModal(modal) {
-    modal.classList.add('active');
-  }
-  function closeAllModals() {
-    document.querySelectorAll('.modal.active').forEach(function (m) {
-      m.classList.remove('active');
-    });
-  }
-
-  document.getElementById('open-explainer').addEventListener('click', function () {
-    openModal(document.getElementById('modal-explainer'));
-  });
-  document.getElementById('open-grid-info').addEventListener('click', function () {
-    openModal(document.getElementById('modal-grid-info'));
-  });
-  document.querySelectorAll('[data-close-modal]').forEach(function (btn) {
-    btn.addEventListener('click', closeAllModals);
-  });
-
-  // Surface AR failures on the build tag instead of failing silently,
-  // so we can see *why* AR didn't launch instead of guessing.
-  modelViewer.addEventListener('ar-status', function (ev) {
-    if (ev.detail.status === 'failed' && buildTag) {
-      buildTag.textContent = 'build v6 — AR-Status: fehlgeschlagen';
-    }
-  });
-
-  loadGrid('icon');
-</script>
-
+<script src="js/kit.js"></script>
+<script src="js/vendor/model-viewer-umd.min.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
