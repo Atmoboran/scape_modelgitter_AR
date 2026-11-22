@@ -1,4 +1,4 @@
-// Modellgitter: grid choice (strip, pager, #hash), the 3D model in
+// Chapter 5 "Die Gitter der Welt": grid choice (strip, pager, #hash), the 3D model in
 // <model-viewer>, the AR button, tasks and the first-hint badge.
 (() => {
   'use strict';
@@ -102,7 +102,6 @@
   };
   $('pager-prev').addEventListener('click', () => step(-1));
   $('pager-next').addEventListener('click', () => step(1));
-  window.addEventListener('hashchange', () => select(location.hash.slice(1), { scroll: true }));
 
   // ---- the model: loaded, turned, zoomed ----------------------------------------
   const updateAr = () => {
@@ -138,6 +137,16 @@
   });
 
   updateAr();
-  const start = location.hash.slice(1);
-  select(GRIDS[start] ? start : KEYS[0], { scroll: !!GRIDS[start] });
+
+  // ---- the grid chapter (js/chapters.js shows it) -------------------------------
+  // The model only loads once the chapter is opened, so the other chapters
+  // stay light on a phone.
+  window.SCAPE.gallery = { has: key => !!GRIDS[key] };
+  (window.SCAPE.chapter = window.SCAPE.chapter || {}).gitter = {
+    enter(hash) {
+      if (GRIDS[hash]) select(hash, { scroll: true });
+      else if (!current) select(KEYS[0]);
+      else if (location.hash.slice(1) !== current) history.replaceState(null, '', '#' + current);
+    }
+  };
 })();

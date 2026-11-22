@@ -50,6 +50,28 @@ THEME.tempColor = function (t) {
   return 'rgb(' + a.map((v, i) => Math.round(v + (b[i] - v) * f)).join(',') + ')';
 };
 
-// Modellgitter draws nothing on a canvas: the 3D models bring their own
-// colours, all page colours are CSS variables in theme.css (Modellgitter block).
-THEME.modellgitter = {};
+// Modellgitter: colours of the canvas chapters (Warum, Stationen,
+// Assimilation, Vorhersage). The 3D models bring their own colours.
+THEME.modellgitter = {
+  ink: '#000000',
+  paper: '#FFFFFF',
+  muted: '#4d4d4d',
+  gridLine: 'rgba(0,0,0,0.28)',     // lines between grid cells
+  rule: '#d9d9d9',                  // axes and help lines in charts
+  select: '#0097BE',                // the tapped cell and its neighbours
+  station: '#000000',               // a weather station that measures
+  stationOff: '#AEC4C2',            // a station switched off
+  truth: '#000000',                 // the real (synthetic) weather
+  model: '#523E91',                 // the model's first guess (background)
+  obs: '#D55117',                   // a measurement
+  analysis: '#00983A',              // the analysis (model + measurements)
+  analysisFill: 'rgba(0,152,58,0.18)',
+  influence: 'rgba(0,152,58,0.08)',   // reach of a measurement
+  modelFill: 'rgba(82,62,145,0.14)',
+  obsFill: 'rgba(213,81,23,0.14)',
+  free: '#AEC4C2',                  // a forecast without assimilation
+  member: 'rgba(50,116,186,0.55)',  // one member of the ensemble
+  control: '#000000',               // the undisturbed run of the ensemble
+  spread: 'rgba(50,116,186,0.14)',  // band of the ensemble spread
+  limit: '#E41513'                  // "forecast no longer useful" marker
+};
