@@ -212,7 +212,7 @@ window.TEXTS = {
     error: 'Das 3D-Modell konnte nicht geladen werden. Lade die Seite neu.',
     fileError: 'Die 3D-Modelle laden nur, wenn die Seite über einen Webserver geöffnet wird (nicht per Doppelklick). Siehe README.'
   },
-  hint: 'Zieh am Gitter, um es zu drehen. Mit zwei Fingern (am Computer: Strg + Mausrad) zoomst du hinein und siehst die Schichten.',
+  hint: 'Zieh am Gitter, um es zu drehen. Mit zwei Fingern (am Computer: Strg + Mausrad) zoomst du hinein und siehst die Schichten übereinander.',
 
   ar: {
     sub: 'Öffnet deine Kamera',
@@ -225,11 +225,11 @@ window.TEXTS = {
   facts: {
     title: 'Steckbrief',
     infoAria: 'Steckbrief erklären',
-    note: '<p><b>Zellform:</b> So sieht eine Zelle von oben aus. Nach oben ist jede Zelle in Schichten gestapelt.</p><p><b>Auflösung:</b> So weit liegen zwei Gitterpunkte auseinander. Je kleiner die Zahl, desto feiner das Gitter – und desto länger rechnet der Computer.</p>',
+    note: '<p><b>Form der Kästchen:</b> So sieht ein Kästchen von oben aus. Nach oben sind die Kästchen in Schichten gestapelt.</p><p><b>Größe der Kästchen:</b> So breit ist ein Kästchen ungefähr. Je kleiner, desto genauer – und desto länger rechnet der Computer.</p>',
     institution: 'Wer nutzt es',
-    type: 'Gittertyp',
-    cells: 'Zellform',
-    resolution: 'Auflösung'
+    type: 'Idee',
+    cells: 'Form der Kästchen',
+    resolution: 'Größe der Kästchen'
   },
 
   tasks: {
@@ -242,23 +242,23 @@ window.TEXTS = {
   },
   merke: {
     title: 'Merke',
-    text: 'Ein Wettermodell teilt die Luft um die Erde in viele kleine Zellen – auch übereinander, in Schichten. Für jede Zelle rechnet der Computer Wind, Temperatur und Feuchte aus. Kleine Zellen zeigen mehr Einzelheiten, brauchen aber mehr Rechenzeit.'
+    text: 'Wettermodelle legen ihre Kästchen um die ganze Erde – und in vielen Schichten übereinander. Eine Kugel lässt sich nicht perfekt in gleich große Kästchen teilen. Darum hat jeder Wetterdienst seine eigene Lösung.'
   },
 
   topics: {
     what: {
-      title: 'Was ist ein Rechengitter?',
-      body: '<p>Ein Wettermodell kann die Atmosphäre nicht als Ganzes berechnen – dafür ist sie zu komplex. Stattdessen zerlegen Forschende die Erdoberfläche in Millionen kleiner Zellen: ein Rechengitter.</p><p>Weil die Atmosphäre auch nach oben hin dick ist, wird jede dieser Flächen zusätzlich in mehrere Schichten übereinander unterteilt. Aus dem zweidimensionalen Gitter wird so ein dreidimensionales Raster aus Zellen. Für jede einzelne Zelle löst der Supercomputer die physikalischen Gleichungen von Wind, Temperatur und Feuchte – Zelle für Zelle, alle paar Minuten neu.</p><p>Je kleiner die Zellen, desto feiner die Details, die das Modell erfassen kann: von riesigen Tiefdruckgebieten bis hinunter zu einzelnen Gewitterzellen. Kleinere Zellen bedeuten aber auch mehr Rechenaufwand. Die Auflösung eines Modells ist deshalb immer ein Kompromiss zwischen Genauigkeit und Rechenzeit.</p>'
+      title: 'Warum Schichten übereinander?',
+      body: '<p>Das Wetter passiert nicht nur am Boden. Wolken, Wind und Regen entstehen auch hoch oben in der Luft. Darum stapelt ein Wettermodell seine Kästchen in vielen Schichten übereinander – bis in über 50 km Höhe.</p><p>Wenn du ins 3D-Modell hineinzoomst, siehst du diese Schichten. Unten, wo das Wetter am meisten passiert, sind sie dünner, oben dicker.</p>'
     },
     why: {
       title: 'Warum gibt es so viele verschiedene Gitter?',
-      body: '<p>Eine Kugel lückenlos und gleichmäßig in Zellen aufzuteilen, ist überraschend schwierig – und jeder Wetterdienst hat dafür seine eigene Lösung entwickelt.</p><p>Das einfachste <b>Längen-Breiten-Gitter</b> legt Zellen entlang gleicher Grad-Abstände an, staucht sie dadurch aber an den Polen fast auf einen Punkt zusammen. Das <b>Gauß-Gitter</b> mildert dieses Problem, indem es die Breitenkreise nach einem mathematischen Verfahren anordnet – lange Zeit die Grundlage vieler spektraler Modelle. Die <b>Kubus-Sphäre</b>, wie sie das US-Modell GFS nutzt, projiziert stattdessen einen Würfel auf die Kugel und erhält so sechs nahezu gleichförmige Flächen aus Vierecken. Der Deutsche Wetterdienst wiederum setzt bei <b>ICON</b> auf ein Gitter aus lauter Dreiecken, die aus einem zwanzigflächigen Ikosaeder verfeinert werden – fast überall gleich groß, egal ob Äquator oder Pol.</p>',
-      figAria: 'Schematische Darstellung eines Dreiecksgitters und eines rautenförmigen Gitters auf einer Kugel',
-      figCaption: 'Zwei Wege, eine Kugel in Rechenzellen zu zerlegen – schematische Darstellung'
+      body: '<p>Versuch einmal, einen Ball mit lauter gleich großen Kästchen zu bekleben, ohne Lücken und ohne Überlappungen. Das klappt nicht perfekt! Jedes Gitter ist ein anderer Kompromiss.</p><ul><li><b>Wie auf der Weltkarte</b> (Längen-Breiten-Gitter): einfach, aber an den Polen werden die Kästchen winzig schmal.</li><li><b>Aus einem Würfel</b> (Kubus-Sphäre): ein aufgeblasener Würfel mit sechs Seiten aus Vierecken.</li><li><b>Aus Dreiecken</b> (ICON): fast überall gleich groß – so macht es der Deutsche Wetterdienst.</li></ul>',
+      figAria: 'Zeichnung: links eine Kugel aus Dreiecken, rechts eine Kugel aus Rauten',
+      figCaption: 'Zwei Wege, eine Kugel in Kästchen zu teilen'
     },
     simplified: {
       title: 'Was ist an den 3D-Modellen vereinfacht?',
-      body: '<p>Die Zellen sind hier viel größer und die Luftschicht viel dicker gezeichnet als in Wirklichkeit – sonst könntest du nichts erkennen. Ein echtes Wettermodell hat Millionen Zellen je Schicht und oft 90 Schichten oder mehr übereinander.</p><p>Der Schnitt durch das Modell zeigt, wie die Schichten übereinanderliegen. Im echten Modell gibt es keinen solchen Schnitt: Das Gitter umschließt die ganze Erde.</p>'
+      body: '<p>Die Kästchen sind hier riesig gezeichnet und die Luftschicht viel zu dick – sonst könntest du nichts erkennen. Ein echtes Wettermodell hat Millionen Kästchen in jeder Schicht und oft 90 Schichten oder mehr.</p><p>Der Schnitt zeigt dir das Innere. In Wirklichkeit umschließt das Gitter die ganze Erde ohne Lücke.</p>'
     }
   },
 
@@ -274,94 +274,94 @@ window.TEXTS = {
   // short: chip in the strip; ar: label of the AR button.
   grids: {
     icon: {
-      name: 'ICON-Gitter (Ikosaeder)',
+      name: 'ICON-Gitter (Dreiecke)',
       short: 'ICON',
       ar: 'ICON-Gitter in AR ansehen',
-      institution: 'DWD',
-      type: 'Ikosaeder-Dreiecksgitter mit Vertikalschichten',
-      cells: 'Dreiecksprismen',
-      resolution: '≈ 13 km horizontal · bis zu 90 Schichten vertikal',
-      explain: 'Stell dir einen Fußball aus 20 Dreiecken vor, dessen Flächen du immer weiter in kleinere Dreiecke zerlegst. Genau so baut der Deutsche Wetterdienst sein Rechengitter für ICON – dadurch sind die Zellen überall auf der Erde fast gleich groß.'
+      institution: 'Deutscher Wetterdienst',
+      type: 'Ein Ball aus 20 Dreiecken, immer feiner unterteilt',
+      cells: 'Dreiecke',
+      resolution: 'etwa 13 km',
+      explain: 'Stell dir einen Ball aus 20 Dreiecken vor. Jedes Dreieck teilst du in kleinere Dreiecke, und die wieder, und wieder. So baut der Deutsche Wetterdienst sein Gitter. Der Vorteil: Die Kästchen sind überall auf der Erde fast gleich groß.'
     },
     cubedsphere: {
-      name: 'Kubus-Sphäre',
-      short: 'Kubus',
-      ar: 'Kubus-Sphäre in AR ansehen',
-      institution: 'u. a. NOAA (GFS)',
-      type: 'Kubus-Sphäre (Cubed Sphere)',
+      name: 'Würfel-Gitter (Kubus-Sphäre)',
+      short: 'Würfel',
+      ar: 'Würfel-Gitter in AR ansehen',
+      institution: 'US-Wetterdienst (Modell GFS)',
+      type: 'Ein aufgeblasener Würfel',
       cells: 'Vierecke',
-      resolution: '≈ 13 km horizontal, je Modellkonfiguration',
-      explain: 'Nimm einen Würfel und blase ihn auf wie einen Ballon, bis er rund wird – übrig bleiben sechs leicht gewölbte Flächen aus viereckigen Zellen. So funktioniert die kubische Sphäre, zum Beispiel beim US-Modell GFS.'
+      resolution: 'etwa 13 km',
+      explain: 'Nimm einen Würfel und blase ihn auf wie einen Luftballon, bis er rund ist. Übrig bleiben sechs gewölbte Seiten aus Vierecken. So rechnet zum Beispiel der Wetterdienst der USA.'
     },
     gaussian: {
       name: 'Gauß-Gitter',
       short: 'Gauß',
       ar: 'Gauß-Gitter in AR ansehen',
-      institution: 'spektrale Modelle',
-      type: 'Gauß-Gitter (spektrales Transformationsgitter)',
-      cells: 'Rechtecke, Breite variiert mit Breitengrad',
-      resolution: 'modellabhängig',
-      explain: 'Die Breitenkreise dieses Gitters liegen nicht einfach gleichmäßig verteilt, sondern nach einer mathematischen Formel – das macht bestimmte Berechnungen im Computer besonders effizient. Lange Zeit die Basis vieler globaler Wettermodelle.'
+      institution: 'viele ältere Wettermodelle',
+      type: 'Wie die Weltkarte, mit klug verteilten Breitenkreisen',
+      cells: 'Rechtecke',
+      resolution: 'je nach Modell',
+      explain: 'Fast wie eine Weltkarte. Nur liegen die Breitenkreise nicht ganz gleichmäßig, sondern so, dass der Computer besonders schnell rechnen kann. Benannt nach dem Mathematiker Carl Friedrich Gauß.'
     },
     latlon: {
       name: 'Längen-Breiten-Gitter',
-      short: 'Lat/Lon',
+      short: 'Weltkarte',
       ar: 'Längen-Breiten-Gitter in AR ansehen',
-      institution: 'weit verbreitet, u. a. in älteren Modellen',
-      type: 'Reguläres Längen-Breiten-Gitter',
-      cells: 'Rechtecke, zu den Polen hin stark gestaucht',
-      resolution: 'z. B. 0,25°–1°',
-      explain: 'Das einfachste Gitter überhaupt: gleich viele Grad zwischen jeder Zeile und Spalte, wie auf einer Weltkarte. Der Nachteil: An den Polen drängen sich die Zellen auf einen winzigen Punkt zusammen.'
+      institution: 'viele Wettermodelle, vor allem früher',
+      type: 'Wie die Linien auf einem Globus',
+      cells: 'Rechtecke, an den Polen sehr schmal',
+      resolution: 'je nach Modell',
+      explain: 'Das einfachste Gitter: Es folgt den Linien, die du von jedem Globus kennst. Der Nachteil: Zu den Polen hin werden die Kästchen immer schmaler, bis sie sich in einem Punkt treffen.'
     },
     voronoi: {
-      name: 'Adaptives Voronoi-Gitter',
-      short: 'Voronoi',
+      name: 'Waben-Gitter mit Lupe (Voronoi)',
+      short: 'Lupe',
       ar: 'Voronoi-Gitter in AR ansehen',
-      institution: 'u. a. MPAS (NCAR)',
-      type: 'Voronoi-Gitter mit variabler Auflösung',
-      cells: 'Sechs- und Fünfecke, unterschiedlich groß',
-      resolution: 'regional verfeinert, z. B. wenige bis mehrere Dutzend km',
-      explain: 'Hier passt sich die Zellgröße der Situation an: fein aufgelöst über einem heranziehenden Sturm oder einer Gebirgskette, gröber über ruhigen Ozeanflächen. So spart das Modell Rechenzeit, ohne wichtige Details zu verpassen.'
+      institution: 'Forschungsmodell MPAS (USA)',
+      type: 'Kleine Kästchen nur dort, wo es wichtig ist',
+      cells: 'Sechsecke, verschieden groß',
+      resolution: 'von wenigen bis zu vielen Kilometern',
+      explain: 'Dieses Gitter arbeitet wie eine Lupe: Über einem Gebiet, das besonders wichtig ist, sind die Kästchen klein, überall sonst groß. So spart der Computer Rechenzeit.'
     },
     hexicosahedral: {
-      name: 'Hexagonal-Ikosaeder-Gitter',
-      short: 'Hex',
-      ar: 'Hexagonal-Ikosaeder-Gitter in AR ansehen',
-      institution: 'z. B. GME (DWD, 1999–2015)',
-      type: 'Hexagonal-Ikosaeder-Gitter',
-      cells: 'Sechsecke, mit 12 Fünfecken',
-      resolution: 'GME: zuletzt ≈ 20 km global',
-      explain: 'Ähnlich wie beim ICON-Gitter, nur dass hier überwiegend Sechsecke statt Dreiecke die Kugel bedecken – wie bei einem Fußball. Der Deutsche Wetterdienst nutzte ein solches Gitter bis 2015 in seinem Vorgängermodell GME.'
+      name: 'Sechseck-Gitter',
+      short: 'Sechseck',
+      ar: 'Sechseck-Gitter in AR ansehen',
+      institution: 'Deutscher Wetterdienst (Modell GME, bis 2015)',
+      type: 'Ein Ball aus Sechsecken, wie ein Fußball',
+      cells: 'Sechsecke und 12 Fünfecke',
+      resolution: 'zuletzt etwa 20 km',
+      explain: 'Wie ein Fußball: lauter Sechsecke und genau zwölf Fünfecke. Mit diesem Gitter hat der Deutsche Wetterdienst bis 2015 gerechnet, bevor er zu den Dreiecken von ICON gewechselt ist.'
     },
     reducedgaussian: {
-      name: 'Reduziertes Gauß-Gitter',
-      short: 'Red. Gauß',
+      name: 'Gauß-Gitter mit weniger Kästchen an den Polen',
+      short: 'Gauß, sparsam',
       ar: 'Reduziertes Gauß-Gitter in AR ansehen',
-      institution: 'u. a. ECMWF IFS (bis 2016)',
-      type: 'Reduziertes Gauß-Gitter',
-      cells: 'Rechtecke, Anzahl je Breitenkreis sinkt zu den Polen',
-      resolution: 'modellabhängig',
-      explain: 'Eine cleverere Variante des Gauß-Gitters: In der Nähe der Pole werden einfach weniger Zellen pro Breitenkreis verwendet, weil dort ohnehin weniger Platz ist. Das spart Rechenleistung, ohne die Genauigkeit stark zu beeinträchtigen.'
+      institution: 'Europäisches Wetterzentrum (ECMWF)',
+      type: 'Wie das Gauß-Gitter, nur sparsamer',
+      cells: 'Rechtecke, zu den Polen hin weniger',
+      resolution: 'je nach Modell',
+      explain: 'Eine schlaue Verbesserung des Gauß-Gitters: Nahe den Polen, wo wenig Platz ist, werden einfach weniger Kästchen pro Ring verwendet. Das spart Rechenzeit.'
     },
     stretched: {
-      name: 'Gestrecktes & rotiertes Gitter',
+      name: 'Gestrecktes Gitter',
       short: 'Gestreckt',
       ar: 'Gestrecktes Gitter in AR ansehen',
-      institution: 'z. B. ICON-D2 / COSMO (DWD), ARPEGE (Météo-France)',
-      type: 'Gestrecktes, rotiertes Gitter',
-      cells: 'Rechtecke, im Fokusgebiet am gleichmäßigsten',
-      resolution: 'z. B. ICON-D2: 2 km über Deutschland',
-      explain: 'Für Regionalmodelle wird das Gitter gedreht und zusammengestaucht, sodass die feinsten, gleichmäßigsten Zellen genau über dem interessierenden Gebiet liegen – zum Beispiel über Deutschland beim Modell ICON-D2.'
+      institution: 'z. B. französischer Wetterdienst (Modell ARPEGE)',
+      type: 'Gedreht und gezogen, fein über einem Land',
+      cells: 'Rechtecke, verschieden groß',
+      resolution: 'fein über dem Zielgebiet, grob auf der anderen Seite der Erde',
+      explain: 'Das Gitter wird gedreht und wie ein Gummituch gezogen, bis die kleinsten Kästchen genau über einem Land liegen. Frankreich bekommt so feine Kästchen, die andere Seite der Erde grobe.'
     },
     yinyang: {
       name: 'Yin-Yang-Gitter',
       short: 'Yin-Yang',
       ar: 'Yin-Yang-Gitter in AR ansehen',
-      institution: 'u. a. in Forschungsmodellen',
-      type: 'Yin-Yang-Gitter (zwei überlappende Panels)',
-      cells: 'Rechtecke, ohne Pol-Singularität',
-      resolution: 'modellabhängig',
-      explain: 'Zwei identische, sich überlappende Gitterstücke – wie beim gleichnamigen Symbol – decken zusammen die ganze Kugel ab. Der Trick: Keines der beiden Stücke muss jemals einen Pol enthalten, wodurch das kniffligste Problem aller Kugelgitter einfach verschwindet.'
+      institution: 'Forschungsmodelle',
+      type: 'Zwei Teile wie bei einem Tennisball',
+      cells: 'Rechtecke, nirgends gequetscht',
+      resolution: 'je nach Modell',
+      explain: 'Zwei gleiche Stücke, die zusammen den ganzen Ball bedecken – wie die Naht auf einem Tennisball. Keines der beiden Stücke reicht bis an einen Pol. So gibt es keine gequetschten Kästchen.'
     }
   }
 };
