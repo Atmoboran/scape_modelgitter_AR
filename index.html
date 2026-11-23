@@ -17,10 +17,10 @@
   <span class="logo" data-brand="logo"></span>
   <div class="top-right">
     <nav class="nav" data-t-aria="navAria">
-      <button type="button" data-chapter="warum"><span class="num">1</span><span data-t="chapters.warum.nav"></span></button>
-      <button type="button" data-chapter="stationen"><span class="num">2</span><span data-t="chapters.stationen.nav"></span></button>
-      <button type="button" data-chapter="assimilation"><span class="num">3</span><span data-t="chapters.assimilation.nav"></span></button>
-      <button type="button" data-chapter="vorhersage"><span class="num">4</span><span data-t="chapters.vorhersage.nav"></span></button>
+      <button type="button" data-chapter="messen"><span class="num">1</span><span data-t="chapters.messen.nav"></span></button>
+      <button type="button" data-chapter="kaestchen"><span class="num">2</span><span data-t="chapters.kaestchen.nav"></span></button>
+      <button type="button" data-chapter="mischen"><span class="num">3</span><span data-t="chapters.mischen.nav"></span></button>
+      <button type="button" data-chapter="vorausrechnen"><span class="num">4</span><span data-t="chapters.vorausrechnen.nav"></span></button>
       <button type="button" data-chapter="gitter"><span class="num">5</span><span data-t="chapters.gitter.nav"></span></button>
     </nav>
     <button type="button" class="view-toggle"></button>
@@ -45,227 +45,183 @@
 </div>
 
 <main id="chapters">
-<section class="chapter page" id="ch-warum" aria-labelledby="h-warum" hidden>
+<section class="chapter page" id="ch-messen" aria-labelledby="h-messen" hidden>
   <div class="lab">
     <div class="lab-pre">
-      <div class="section-label" data-t="chapters.warum.label"></div>
-      <h2 class="h2-short ch-title" id="h-warum" data-t="chapters.warum.title"></h2>
-      <p class="text" data-t-html="warum.intro"></p>
+      <div class="section-label" data-t="chapters.messen.label"></div>
+      <h2 class="h2-short ch-title" id="h-messen" data-t="chapters.messen.title"></h2>
+      <p class="text" data-t-html="messen.intro"></p>
     </div>
-    <div class="lab-stage"><div class="stage-frame square fit" id="w-stage"></div></div>
+    <div class="lab-stage"><div class="stage-frame square fit" id="m-stage"></div></div>
     <div class="lab-post">
-      <p class="hint" data-t="warum.hint"></p>
-      <div class="controls">
-        <div class="range"><label for="w-res" data-t="warum.resLabel"></label><input type="range" id="w-res" min="0" max="4" step="1" value="2"><output id="w-res-out" for="w-res"></output></div>
-        <button type="button" class="btn primary" id="w-wind" aria-pressed="false"></button>
-        <button type="button" class="btn" id="w-reset" data-t="warum.reset"></button>
-        <button type="button" class="btn" id="w-truth" aria-pressed="false" data-t="warum.truth"></button>
-      </div>
-      <div class="readout-grid">
-        <div><span data-t="warum.readCells"></span><b id="w-cells">–</b></div>
-        <div><span data-t="warum.readDx"></span><b id="w-dx">–</b></div>
-        <div><span data-t="warum.readCost"></span><b id="w-cost">–</b></div>
-        <div><span data-t="warum.readTime"></span><b id="w-time">–</b></div>
-      </div>
-      <p class="cell-note" id="w-cell" aria-live="polite"></p>
-      <div class="tasks" id="w-tasks">
-        <h3 data-t="kit.tasks"></h3>
-        <ul>
-          <li data-task="res"><span class="box"></span><span data-t="warum.tasks.res"></span></li>
-          <li data-task="wind"><span class="box"></span><span data-t="warum.tasks.wind"></span></li>
-          <li data-task="cell"><span class="box"></span><span data-t="warum.tasks.cell"></span></li>
-        </ul>
-      </div>
-      <div class="merke locked" data-for="w-tasks">
-        <h3 data-t="kit.merke"></h3>
-        <p data-t="warum.merke"></p>
-        <span class="locked-note"></span>
-      </div>
-    </div>
-  </div>
-  <div class="topics">
-    <details class="topic"><summary data-t="warum.topics.discrete.title"></summary><div class="topic-body" data-t-html="warum.topics.discrete.body"></div></details>
-    <details class="topic"><summary data-t="warum.topics.cost.title"></summary><div class="topic-body" data-t-html="warum.topics.cost.body"></div></details>
-    <details class="topic"><summary data-t="warum.topics.smear.title"></summary><div class="topic-body" data-t-html="warum.topics.smear.body"></div></details>
-  </div>
-</section>
-<section class="chapter page" id="ch-stationen" aria-labelledby="h-stationen" hidden>
-  <div class="lab">
-    <div class="lab-pre">
-      <div class="section-label" data-t="chapters.stationen.label"></div>
-      <h2 class="h2-short ch-title" id="h-stationen" data-t="chapters.stationen.title"></h2>
-      <p class="text" data-t-html="stationen.intro"></p>
-    </div>
-    <div class="lab-stage"><div class="stage-frame square fit" id="s-stage"></div></div>
-    <div class="lab-post">
-      <p class="hint" data-t="stationen.hint"></p>
-      <div class="section-label" data-t="stationen.methodLabel"></div>
-      <div class="seg">
-        <button type="button" class="btn" data-s-method="nearest" data-t="stationen.nearest"></button>
-        <button type="button" class="btn" data-s-method="idw" data-t="stationen.idw"></button>
-      </div>
+      <p class="hint" data-t="messen.hint"></p>
+      <p class="which" id="m-which"></p>
       <div class="controls ch-controls">
-        <div class="range-wrap" id="s-power-row">
-        <div class="range"><label for="s-power" data-t="stationen.powerLabel"></label><input type="range" id="s-power" min="1" max="5" step="0.5" value="2"><output id="s-power-out" for="s-power"></output></div>
-        </div>
-        <div class="range"><label for="s-res" data-t="stationen.resLabel"></label><input type="range" id="s-res" min="0" max="4" step="1" value="2"><output id="s-res-out" for="s-res"></output></div>
+        <div class="range"><label for="m-guess" data-t="messen.guessLabel"></label><input type="range" id="m-guess" min="0" max="30" step="1" value="15"><output id="m-guess-out" for="m-guess"></output></div>
       </div>
-      <div class="section-label" data-t="stationen.viewLabel"></div>
-      <div class="seg">
-        <button type="button" class="btn" data-s-view="interp" data-t="stationen.interp"></button>
-        <button type="button" class="btn" data-s-view="truth" data-t="stationen.truth"></button>
-        <button type="button" class="btn" data-s-view="diff" data-t="stationen.diff"></button>
+      <div class="controls">
+        <button type="button" class="btn big primary" id="m-solve" data-t="messen.solve"></button>
+        <button type="button" class="btn" id="m-next" data-t="messen.next"></button>
       </div>
-      <div class="readout-grid">
-        <div><span data-t="stationen.readActive"></span><b id="s-active">–</b></div>
-        <div><span data-t="stationen.readRms"></span><b id="s-rms">–</b></div>
-        <div><span data-t="stationen.readMax"></span><b id="s-max">–</b></div>
-      </div>
-      <p class="cell-note" id="s-cell" aria-live="polite"></p>
-      <div class="controls"><button type="button" class="btn" id="s-reset" data-t="stationen.reset"></button></div>
-      <div class="tasks" id="s-tasks">
+      <p class="say" id="m-result" aria-live="polite"></p>
+      <div class="controls"><span class="readout" id="m-count"></span><button type="button" class="btn small-btn" id="m-reset" data-t="messen.reset"></button></div>
+      <div class="tasks" id="m-tasks">
         <h3 data-t="kit.tasks"></h3>
         <ul>
-          <li data-task="idw"><span class="box"></span><span data-t="stationen.tasks.idw"></span></li>
-          <li data-task="off"><span class="box"></span><span data-t="stationen.tasks.off"></span></li>
-          <li data-task="cell"><span class="box"></span><span data-t="stationen.tasks.cell"></span></li>
-          <li data-task="diff"><span class="box"></span><span data-t="stationen.tasks.diff"></span></li>
+          <li data-task="near"><span class="box"></span><span data-t="messen.tasks.near"></span></li>
+          <li data-task="city"><span class="box"></span><span data-t="messen.tasks.city"></span></li>
+          <li data-task="mountain"><span class="box"></span><span data-t="messen.tasks.mountain"></span></li>
         </ul>
       </div>
-      <div class="merke locked" data-for="s-tasks">
+      <div class="merke locked" data-for="m-tasks">
         <h3 data-t="kit.merke"></h3>
-        <p data-t="stationen.merke"></p>
+        <p data-t="messen.merke"></p>
+        <p class="term" data-t-html="messen.term"></p>
         <span class="locked-note"></span>
       </div>
     </div>
   </div>
   <div class="topics">
-    <details class="topic"><summary data-t="stationen.topics.nearest.title"></summary><div class="topic-body" data-t-html="stationen.topics.nearest.body"></div></details>
-    <details class="topic"><summary data-t="stationen.topics.idw.title"></summary><div class="topic-body" data-t-html="stationen.topics.idw.body"></div></details>
-    <details class="topic"><summary data-t="stationen.topics.pros.title"></summary><div class="topic-body" data-t-html="stationen.topics.pros.body"></div></details>
-    <details class="topic"><summary data-t="stationen.topics.limits.title"></summary><div class="topic-body" data-t-html="stationen.topics.limits.body"></div></details>
+    <details class="topic"><summary data-t="messen.more.title"></summary><div class="topic-body" data-t-html="messen.more.body"></div></details>
   </div>
 </section>
-<section class="chapter page" id="ch-assimilation" aria-labelledby="h-assimilation" hidden>
+<section class="chapter page" id="ch-kaestchen" aria-labelledby="h-kaestchen" hidden>
   <div class="lab">
     <div class="lab-pre">
-      <div class="section-label" data-t="chapters.assimilation.label"></div>
-      <h2 class="h2-short ch-title" id="h-assimilation" data-t="chapters.assimilation.title"></h2>
-      <p class="text" data-t-html="assim.intro"></p>
-      <ol class="stepper" data-t-aria="assim.stepsAria">
-        <li><button type="button" data-a-step="punkt" data-t="assim.steps.punkt"></button></li>
-        <li><button type="button" data-a-step="linie" data-t="assim.steps.linie"></button></li>
-        <li><button type="button" data-a-step="kreislauf" data-t="assim.steps.kreislauf"></button></li>
+      <div class="section-label" data-t="chapters.kaestchen.label"></div>
+      <h2 class="h2-short ch-title" id="h-kaestchen" data-t="chapters.kaestchen.title"></h2>
+      <p class="text" data-t-html="kaestchen.intro"></p>
+    </div>
+    <div class="lab-stage"><div class="stage-frame square fit" id="k-stage"></div></div>
+    <div class="lab-post">
+      <p class="hint" data-t="kaestchen.hint"></p>
+      <div class="controls ch-controls">
+        <div class="range"><label for="k-res" data-t="kaestchen.sizeLabel"></label><input type="range" id="k-res" min="0" max="3" step="1" value="1"><output id="k-res-out" for="k-res"></output></div>
+      </div>
+      <div class="controls"><button type="button" class="btn" id="k-real" aria-pressed="false" data-t="kaestchen.real"></button></div>
+      <div class="readout-grid">
+        <div><span data-t="kaestchen.readCount"></span><b id="k-count">–</b></div>
+        <div class="grow"><span data-t="kaestchen.readTime"></span><b id="k-time">–</b><span class="bar"><span id="k-bar"></span></span></div>
+      </div>
+      <p class="say" id="k-say" aria-live="polite"></p>
+      <div class="tasks" id="k-tasks">
+        <h3 data-t="kit.tasks"></h3>
+        <ul>
+          <li data-task="coarse"><span class="box"></span><span data-t="kaestchen.tasks.coarse"></span></li>
+          <li data-task="fine"><span class="box"></span><span data-t="kaestchen.tasks.fine"></span></li>
+          <li data-task="real"><span class="box"></span><span data-t="kaestchen.tasks.real"></span></li>
+        </ul>
+      </div>
+      <div class="merke locked" data-for="k-tasks">
+        <h3 data-t="kit.merke"></h3>
+        <p data-t="kaestchen.merke"></p>
+        <p class="term" data-t-html="kaestchen.term"></p>
+        <span class="locked-note"></span>
+      </div>
+    </div>
+  </div>
+  <div class="topics">
+    <details class="topic"><summary data-t="kaestchen.more.title"></summary><div class="topic-body" data-t-html="kaestchen.more.body"></div></details>
+  </div>
+</section>
+<section class="chapter page" id="ch-mischen" aria-labelledby="h-mischen" hidden>
+  <div class="lab">
+    <div class="lab-pre">
+      <div class="section-label" data-t="chapters.mischen.label"></div>
+      <h2 class="h2-short ch-title" id="h-mischen" data-t="chapters.mischen.title"></h2>
+      <p class="text" data-t-html="mischen.intro"></p>
+    </div>
+    <div class="lab-stage"><div class="stage-frame square fit" id="x-stage"></div></div>
+    <div class="lab-post">
+      <p class="hint" data-t="mischen.hint"></p>
+      <div class="section-label" data-t="mischen.deviceLabel"></div>
+      <div class="seg">
+        <button type="button" class="btn" data-x-device="profi" data-t="mischen.profi"></button>
+        <button type="button" class="btn" data-x-device="handy" data-t="mischen.handy"></button>
+      </div>
+      <div class="section-label" data-t="mischen.ageLabel"></div>
+      <div class="seg">
+        <button type="button" class="btn" data-x-age="gestern" data-t="mischen.gestern"></button>
+        <button type="button" class="btn" data-x-age="woche" data-t="mischen.woche"></button>
+      </div>
+      <div class="readout-grid">
+        <div><span data-t="mischen.readMix"></span><b id="x-mix">–</b></div>
+      </div>
+      <p class="say" id="x-say" aria-live="polite"></p>
+      <div class="tasks" id="x-tasks">
+        <h3 data-t="kit.tasks"></h3>
+        <ul>
+          <li data-task="handy"><span class="box"></span><span data-t="mischen.tasks.handy"></span></li>
+          <li data-task="woche"><span class="box"></span><span data-t="mischen.tasks.woche"></span></li>
+          <li data-task="almost"><span class="box"></span><span data-t="mischen.tasks.almost"></span></li>
+        </ul>
+      </div>
+      <div class="merke locked" data-for="x-tasks">
+        <h3 data-t="kit.merke"></h3>
+        <p data-t="mischen.merke"></p>
+        <p class="term" data-t-html="mischen.term"></p>
+        <span class="locked-note"></span>
+      </div>
+    </div>
+  </div>
+  <div class="topics">
+    <details class="topic"><summary data-t="mischen.more.title"></summary><div class="topic-body" data-t-html="mischen.more.body"></div></details>
+  </div>
+</section>
+<section class="chapter page" id="ch-vorausrechnen" aria-labelledby="h-vorausrechnen" hidden>
+  <div class="lab">
+    <div class="lab-pre">
+      <div class="section-label" data-t="chapters.vorausrechnen.label"></div>
+      <h2 class="h2-short ch-title" id="h-vorausrechnen" data-t="chapters.vorausrechnen.title"></h2>
+      <p class="text" data-t-html="vorausrechnen.intro"></p>
+      <ol class="stepper" data-t-aria="vorausrechnen.stepsAria">
+        <li><button type="button" data-r-step="regen" data-t="vorausrechnen.steps.regen"></button></li>
+        <li><button type="button" data-r-step="faecher" data-t="vorausrechnen.steps.faecher"></button></li>
       </ol>
     </div>
-    <div class="lab-stage"><div class="stage-frame square fit" id="a-stage"></div></div>
+    <div class="lab-stage"><div class="stage-frame square fit" id="r-stage"></div></div>
     <div class="lab-post">
-      <div id="a-panel-punkt">
-        <p class="hint" data-t="assim.p.hint"></p>
-        <div class="controls ch-controls">
-        <div class="range"><label for="a-sb" data-t="assim.p.sbLabel"></label><input type="range" id="a-sb" min="0.5" max="4" step="0.1" value="2"><output id="a-sb-out" for="a-sb"></output></div>
-        <div class="range"><label for="a-so" data-t="assim.p.soLabel"></label><input type="range" id="a-so" min="0.5" max="4" step="0.1" value="1"><output id="a-so-out" for="a-so"></output></div>
-        </div>
-      <div class="readout-grid">
-        <div><span data-t="assim.p.readK"></span><b id="a-k">–</b></div>
-        <div><span data-t="assim.p.readXa"></span><b id="a-xa">–</b></div>
-        <div><span data-t="assim.p.readSa"></span><b id="a-sa">–</b></div>
-      </div>
-        <p class="formula" id="a-formula" aria-live="polite"></p>
-      </div>
-      <div id="a-panel-linie" hidden>
-        <p class="hint" data-t="assim.l.hint"></p>
-        <div class="controls ch-controls">
-        <div class="range"><label for="a-so2" data-t="assim.l.soLabel"></label><input type="range" id="a-so2" min="0.2" max="3" step="0.1" value="0.5"><output id="a-so2-out" for="a-so2"></output></div>
-        <div class="range"><label for="a-L" data-t="assim.l.LLabel"></label><input type="range" id="a-L" min="20" max="300" step="10" value="100"><output id="a-L-out" for="a-L"></output></div>
-          <button type="button" class="btn" id="a-truth" aria-pressed="true" data-t="assim.l.truth"></button>
-        </div>
-      <div class="readout-grid">
-        <div><span data-t="assim.l.readN"></span><b id="a-l-n">–</b></div>
-        <div><span data-t="assim.l.readModel"></span><b id="a-l-model">–</b></div>
-        <div><span data-t="assim.l.readAna"></span><b id="a-l-ana">–</b></div>
-      </div>
-      </div>
-      <div id="a-panel-kreislauf" hidden>
-        <p class="hint" data-t="assim.c.hint"></p>
+      <div id="r-panel-regen">
+        <p class="hint" data-t="vorausrechnen.regenHint"></p>
         <div class="controls">
-          <button type="button" class="btn primary" id="a-play" aria-pressed="false"></button>
-          <button type="button" class="btn" id="a-restart" data-t="assim.c.restart"></button>
-        </div>
-        <div class="controls ch-controls">
-        <div class="range"><label for="a-period" data-t="assim.c.periodLabel"></label><input type="range" id="a-period" min="0" max="3" step="1" value="1"><output id="a-period-out" for="a-period"></output></div>
-        <div class="range"><label for="a-n" data-t="assim.c.nLabel"></label><input type="range" id="a-n" min="2" max="16" step="1" value="8"><output id="a-n-out" for="a-n"></output></div>
+          <button type="button" class="btn big primary" id="r-play" aria-pressed="false"></button>
+          <button type="button" class="btn" id="r-step" data-t="vorausrechnen.step"></button>
+          <button type="button" class="btn" id="r-reset" data-t="vorausrechnen.reset"></button>
         </div>
       <div class="readout-grid">
-        <div><span data-t="assim.c.readTime"></span><b id="a-c-time">–</b></div>
-        <div><span data-t="assim.c.readDA"></span><b id="a-c-da">–</b></div>
-        <div><span data-t="assim.c.readFree"></span><b id="a-c-free">–</b></div>
+        <div><span data-t="vorausrechnen.readClock"></span><b id="r-clock">–</b></div>
+        <div><span data-t="vorausrechnen.readCity"></span><b id="r-city">–</b></div>
+      </div>
+        <p class="say" id="r-say" aria-live="polite"></p>
+      </div>
+      <div id="r-panel-faecher" hidden>
+        <p class="hint" data-t="vorausrechnen.fanHint"></p>
+        <div class="controls">
+          <button type="button" class="btn big primary" id="f-add" data-t="vorausrechnen.add"></button>
+          <button type="button" class="btn" id="f-clear" data-t="vorausrechnen.clear"></button>
+        </div>
+      <div class="readout-grid">
+        <div><span data-t="vorausrechnen.readRuns"></span><b id="f-runs">–</b></div>
+        <div><span data-t="vorausrechnen.readSure"></span><b id="f-sure">–</b></div>
       </div>
       </div>
-      <div class="tasks" id="a-tasks">
+      <div class="tasks" id="r-tasks">
         <h3 data-t="kit.tasks"></h3>
         <ul>
-          <li data-task="trust"><span class="box"></span><span data-t="assim.tasks.trust"></span></li>
-          <li data-task="add"><span class="box"></span><span data-t="assim.tasks.add"></span></li>
-          <li data-task="cycle"><span class="box"></span><span data-t="assim.tasks.cycle"></span></li>
+          <li data-task="rain"><span class="box"></span><span data-t="vorausrechnen.tasks.rain"></span></li>
+          <li data-task="fan"><span class="box"></span><span data-t="vorausrechnen.tasks.fan"></span></li>
         </ul>
       </div>
-      <div class="merke locked" data-for="a-tasks">
+      <div class="merke locked" data-for="r-tasks">
         <h3 data-t="kit.merke"></h3>
-        <p data-t="assim.merke"></p>
+        <p data-t="vorausrechnen.merke"></p>
+        <p class="term" data-t-html="vorausrechnen.term"></p>
         <span class="locked-note"></span>
       </div>
     </div>
   </div>
   <div class="topics">
-    <details class="topic"><summary data-t="assim.topics.formula.title"></summary><div class="topic-body" data-t-html="assim.topics.formula.body"></div></details>
-    <details class="topic"><summary data-t="assim.topics.field.title"></summary><div class="topic-body" data-t-html="assim.topics.field.body"></div></details>
-    <details class="topic"><summary data-t="assim.topics.sources.title"></summary><div class="topic-body" data-t-html="assim.topics.sources.body"></div></details>
-    <details class="topic"><summary data-t="assim.topics.methods.title"></summary><div class="topic-body" data-t-html="assim.topics.methods.body"></div></details>
-  </div>
-</section>
-<section class="chapter page" id="ch-vorhersage" aria-labelledby="h-vorhersage" hidden>
-  <div class="lab">
-    <div class="lab-pre">
-      <div class="section-label" data-t="chapters.vorhersage.label"></div>
-      <h2 class="h2-short ch-title" id="h-vorhersage" data-t="chapters.vorhersage.title"></h2>
-      <p class="text" data-t-html="vorhersage.intro"></p>
-    </div>
-    <div class="lab-stage"><div class="stage-frame square fit" id="v-stage"></div></div>
-    <div class="lab-post">
-      <p class="hint" data-t="vorhersage.hint"></p>
-      <div class="controls">
-        <button type="button" class="btn primary" id="v-play" aria-pressed="false"></button>
-        <button type="button" class="btn" id="v-restart" data-t="vorhersage.restart"></button>
-      </div>
-      <div class="controls ch-controls">
-        <div class="range"><label for="v-eps" data-t="vorhersage.epsLabel"></label><input type="range" id="v-eps" min="0" max="4" step="1" value="2"><output id="v-eps-out" for="v-eps"></output></div>
-      </div>
-      <div class="readout-grid">
-        <div><span data-t="vorhersage.readTime"></span><b id="v-time">–</b></div>
-        <div><span data-t="vorhersage.readSpread"></span><b id="v-spread">–</b></div>
-        <div><span data-t="vorhersage.readLimit"></span><b id="v-limit">–</b></div>
-      </div>
-      <div class="tasks" id="v-tasks">
-        <h3 data-t="kit.tasks"></h3>
-        <ul>
-          <li data-task="run"><span class="box"></span><span data-t="vorhersage.tasks.run"></span></li>
-          <li data-task="small"><span class="box"></span><span data-t="vorhersage.tasks.small"></span></li>
-          <li data-task="big"><span class="box"></span><span data-t="vorhersage.tasks.big"></span></li>
-        </ul>
-      </div>
-      <div class="merke locked" data-for="v-tasks">
-        <h3 data-t="kit.merke"></h3>
-        <p data-t="vorhersage.merke"></p>
-        <span class="locked-note"></span>
-      </div>
-    </div>
-  </div>
-  <div class="topics">
-    <details class="topic"><summary data-t="vorhersage.topics.timestep.title"></summary><div class="topic-body" data-t-html="vorhersage.topics.timestep.body"></div></details>
-    <details class="topic"><summary data-t="vorhersage.topics.butterfly.title"></summary><div class="topic-body" data-t-html="vorhersage.topics.butterfly.body"></div></details>
-    <details class="topic"><summary data-t="vorhersage.topics.ensemble.title"></summary><div class="topic-body" data-t-html="vorhersage.topics.ensemble.body"></div></details>
-    <details class="topic"><summary data-t="vorhersage.topics.loop.title"></summary><div class="topic-body" data-t-html="vorhersage.topics.loop.body"></div></details>
+    <details class="topic"><summary data-t="vorausrechnen.more.title"></summary><div class="topic-body" data-t-html="vorausrechnen.more.body"></div></details>
   </div>
 </section>
 <section class="chapter" id="ch-gitter" aria-labelledby="h-gitter" hidden>
@@ -427,10 +383,11 @@
 <script src="js/vendor/model-viewer-umd.min.js"></script>
 <script src="js/app.js"></script>
 <script src="js/canvas.js"></script>
-<script src="js/ch-warum.js"></script>
-<script src="js/ch-stationen.js"></script>
-<script src="js/ch-assimilation.js"></script>
-<script src="js/ch-vorhersage.js"></script>
+<script src="js/land.js"></script>
+<script src="js/ch-messen.js"></script>
+<script src="js/ch-kaestchen.js"></script>
+<script src="js/ch-mischen.js"></script>
+<script src="js/ch-vorausrechnen.js"></script>
 <script src="js/chapters.js"></script>
 </body>
 </html>

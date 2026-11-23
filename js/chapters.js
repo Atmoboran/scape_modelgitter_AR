@@ -1,12 +1,12 @@
 // The five chapters of the app, one visible at a time:
-//   #warum · #stationen · #assimilation · #vorhersage · #gitter
+//   #messen · #kaestchen · #mischen · #vorausrechnen · #gitter
 // A grid key (#icon, #latlon, …) opens the grid chapter with that grid.
 // Each chapter script registers SCAPE.chapter[key] = { enter(hash), leave() };
 // enter/leave start and stop animations so hidden chapters cost nothing.
 // Load last, after every chapter script.
 (() => {
   const S = window.SCAPE;
-  const KEYS = ['warum', 'stationen', 'assimilation', 'vorhersage', 'gitter'];
+  const KEYS = ['messen', 'kaestchen', 'mischen', 'vorausrechnen', 'gitter'];
   const sections = Object.fromEntries(KEYS.map(k => [k, document.getElementById('ch-' + k)]));
   const navBtns = [...document.querySelectorAll('[data-chapter]')];
   const $ = id => document.getElementById(id);

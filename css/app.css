@@ -62,27 +62,33 @@ model-viewer {
 :root[data-view="mobile"] .facts dd { margin: 0; }
 
 /* ======================================================================
-   Chapters 1–4 (canvas simulations) and the chapter navigation
+   Steps 1–4 (canvas simulations) and the step navigation
    ====================================================================== */
 .chapter.page { padding-top: 24px; }
 .ch-title { margin-bottom: 10px; }
-.lab-pre .text { font-size: 16px; }
+.lab-pre .text { font-size: 17px; }
 .chapter-intro { padding-bottom: 14px; }
 .chapter-intro .text { margin-bottom: 0; }
 .stage-frame > canvas { touch-action: manipulation; cursor: pointer; }
 .lab-pre .stepper { margin-top: 14px; }
+.lab-post .hint { font-size: 16px; }
 
 .seg { margin: 0 0 12px; }
 :root[data-view="mobile"] .seg .btn { flex: 1 1 auto; }
-.ch-controls .range, .range-wrap { flex: 1 1 100%; }
-.range-wrap { display: flex; }
-.cell-note { font-size: 14.5px; line-height: 1.5; min-height: 4.5em; margin: 0 0 10px; padding: 8px 12px; border-left: 4px solid var(--line); background: var(--stage-bg); font-variant-numeric: tabular-nums; }
+.ch-controls .range { flex: 1 1 100%; }
 
-/* formulas: in the topics and below the point step of chapter 3 */
-.formula { font-size: 17px; line-height: 1.5; background: var(--stage-bg); border-left: 4px solid var(--line); padding: 8px 12px; margin: 0 0 12px; overflow-x: auto; font-variant-numeric: tabular-nums; }
-.topic-body p.formula { font-size: 16.5px; max-width: 40em; }
-.formula sub, .formula sup { font-size: .7em; }
+/* which "?" is chosen, and the plain-language feedback below a simulation */
+.which { font-weight: var(--fw-medium); font-size: 16px; margin: 4px 0 6px; }
+.say { font-size: 16px; line-height: 1.5; min-height: 3em; margin: 0 0 12px; padding: 10px 12px; border-left: 4px solid var(--line); background: var(--stage-bg); }
+.say:empty { display: none; }
+.readout { margin-right: auto; }
+.merke .term { margin-top: 8px; font-size: 15px; }
 
-/* chapter pager at the foot of every chapter */
+/* computing time as a bar */
+.readout-grid .grow { flex: 1 1 200px; }
+.readout-grid .bar { display: block; height: 10px; margin-top: 6px; border: var(--line-width) solid var(--line); background: var(--paper); }
+.readout-grid .bar > span { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+
+/* step pager at the foot of every step */
 .chapter-pager { margin-top: 0; padding-top: 8px; border-top: var(--line-width) solid var(--line); }
 #ch-gitter .page .pager { margin-bottom: 8px; }

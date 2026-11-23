@@ -5,8 +5,8 @@
 // (none in this app so far).
 window.TEXTS = {
   lang: 'de',
-  pageTitle: 'Modellgitter – vom Messwert zur Vorhersage',
-  description: 'Warum Wettermodelle ein Gitter brauchen, wie aus Messstationen ein Gitter wird, wie Datenassimilation funktioniert – und die Rechengitter globaler Wettermodelle in 3D und AR.',
+  pageTitle: 'Modellgitter – wie eine Wettervorhersage entsteht',
+  description: 'Wie entsteht eine Wettervorhersage? Messen, Kästchen, Mischen, Vorausrechnen – und die Rechengitter der Wettermodelle in 3D und AR.',
 
   // Texts of the shared kit (js/view.js, js/kit.js).
   kit: {
@@ -25,247 +25,182 @@ window.TEXTS = {
 
   poster: {
     headline: 'Modellgitter',
-    lead: 'Wie wird aus einzelnen Messungen eine Wettervorhersage? In fünf Kapiteln vom Gitter über die Messstationen und die Datenassimilation bis zu den Rechengittern um die ganze Erde.'
+    lead: 'Wie entsteht eine Wettervorhersage? In fünf kurzen Schritten zum Ausprobieren – vom Thermometer bis zum Computer, der die ganze Erde in Kästchen teilt.'
   },
 
   // ---- chapter navigation (js/chapters.js) ----------------------------------
   navAria: 'Kapitel',
   chapters: {
-    warum:        { nav: 'Warum ein Gitter?', label: 'Kapitel 1 von 5', title: 'Warum ein Gitter?' },
-    stationen:    { nav: 'Stationen', label: 'Kapitel 2 von 5', title: 'Von Stationen zum Gitter' },
-    assimilation: { nav: 'Assimilation', label: 'Kapitel 3 von 5', title: 'Messung trifft Modell' },
-    vorhersage:   { nav: 'Vorhersage', label: 'Kapitel 4 von 5', title: 'Die Vorhersage' },
-    gitter:       { nav: 'Gitter der Welt', label: 'Kapitel 5 von 5', title: 'Die Gitter der Welt' }
+    messen:        { nav: 'Messen', label: 'Schritt 1 von 5', title: 'Messen' },
+    kaestchen:     { nav: 'Kästchen', label: 'Schritt 2 von 5', title: 'Kästchen' },
+    mischen:       { nav: 'Mischen', label: 'Schritt 3 von 5', title: 'Mischen' },
+    vorausrechnen: { nav: 'Vorausrechnen', label: 'Schritt 4 von 5', title: 'Voraus­rechnen' },
+    gitter:        { nav: 'Die ganze Erde', label: 'Schritt 5 von 5', title: 'Die ganze Erde' }
   },
   chapterPager: {
-    aria: 'Vorheriges und nächstes Kapitel',
-    prevAria: name => 'Vorheriges Kapitel: ' + name,
-    nextAria: name => 'Nächstes Kapitel: ' + name,
-    count: (n, total) => 'Kapitel ' + n + ' / ' + total
+    aria: 'Vorheriger und nächster Schritt',
+    prevAria: name => 'Zurück zu: ' + name,
+    nextAria: name => 'Weiter zu: ' + name,
+    count: (n, total) => 'Schritt ' + n + ' / ' + total
   },
+  fachwort: 'Fachwort',
 
-  // ---- Kapitel 1: Warum ein Gitter? (js/ch-warum.js) -------------------------
-  warum: {
-    intro: 'Die Luft ist überall – ein Computer kann aber nur mit einer endlichen Liste von Zahlen rechnen. Darum zerlegt man die Luft in Kästchen, ähnlich wie ein Foto aus Pixeln besteht. Jedes Kästchen bekommt <b>eine</b> Temperatur, <b>einen</b> Wind, <b>eine</b> Feuchte.',
-    hint: 'Tippe auf eine Zelle: Du siehst, mit welchen Nachbarn sie rechnet. Starte den Wind und vergleiche grobe und feine Gitter. Die gestrichelten Kreise zeigen, wo die warmen und kalten Gebiete wirklich sind.',
-    badge: 'Tippe auf eine Zelle',
-    resLabel: 'Gitter',
-    wind: 'Wind',
-    windStart: 'Wind starten',
-    windStop: 'Wind anhalten',
-    reset: 'Zurück auf Anfang',
-    truth: 'Wirklichkeit zeigen',
-    readCells: 'Zellen',
-    readDx: 'Zellbreite',
-    readCost: 'Rechenaufwand',
-    readTime: 'Zeit',
-    hours: n => n + ' h',
-    cellNone: 'Tippe auf eine Zelle, um ihre Rechnung zu sehen.',
-    cell: (c, l, o) => '<b>Diese Zelle:</b> ' + c + ' °C · links daneben: ' + l + ' °C · darüber: ' + o + ' °C',
-    cellNext: (c, cx, l, cy, o, n, dt) => '<b>In ' + dt + ':</b> ' + c + ' − ' + cx + ' × (' + c + ' − ' + l + ') − ' + cy + ' × (' + c + ' − ' + o + ') = <b>' + n + ' °C</b>',
-    tasks: {
-      res: 'Stell das Gitter einmal ganz grob und einmal ganz fein.',
-      wind: 'Starte den Wind und beobachte, was mit den Flecken passiert.',
-      cell: 'Tippe auf eine Zelle und sieh dir ihre Rechnung an.'
+  // ---- Schritt 1: Messen (js/ch-messen.js) ----------------------------------
+  messen: {
+    intro: 'Jede Wettervorhersage beginnt mit Messungen. Wetterstationen messen zum Beispiel die Temperatur – aber eben nur dort, wo sie stehen. Wie warm ist es dazwischen?',
+    hint: 'An den gelben Fragezeichen steht keine Station. Schätze die Temperatur und löse auf.',
+    badge: 'Wie warm ist es am Fragezeichen?',
+    legend: '● Wetterstation',
+    mountain: 'Berg',
+    city: 'Stadt',
+    which: {
+      near: 'Fragezeichen 1: gleich neben einer Station',
+      city: 'Fragezeichen 2: in der Stadt',
+      mountain: 'Fragezeichen 3: auf dem Berg'
     },
-    merke: 'Ein Computer kennt nur Zahlen in Kästchen. Jede Zelle rechnet mit ihren Nachbarn aus, wie sich das Wetter in ihr ändert – dafür braucht es ein Gitter. Ein feines Gitter zeigt mehr Einzelheiten, kostet aber viel mehr Rechenzeit.',
-    topics: {
-      discrete: {
-        title: 'Wie rechnet eine Zelle?',
-        body: '<p>Die Physik beschreibt, wie sich das Wetter <i>verändert</i>. Für die Temperatur, die vom Wind verfrachtet wird, lautet die Gleichung sinngemäß:</p><p class="formula">Änderung der Temperatur pro Zeit = − Wind × Temperaturunterschied pro Strecke</p><p>Weht der Wind von links und ist es links kälter, wird es in der Zelle kälter. Auf dem Gitter wird aus dem „Unterschied pro Strecke“ ganz einfach der Unterschied zum Nachbarn, geteilt durch die Zellbreite Δx:</p><p class="formula">T<sub>neu</sub> = T<sub>alt</sub> − u · Δt / Δx · (T<sub>alt</sub> − T<sub>links</sub>)</p><p>u ist die Windgeschwindigkeit, Δt der Zeitschritt. Genau diese Rechnung siehst du, wenn du auf eine Zelle tippst. Echte Modelle rechnen so für Wind, Druck, Temperatur, Feuchte, Wolken – in allen drei Richtungen.</p>'
-      },
-      cost: {
-        title: 'Warum werden feine Gitter so teuer?',
-        body: '<p>Halbiert man die Zellbreite, braucht man in der Fläche <b>viermal</b> so viele Zellen (doppelt so viele in jede Richtung). Außerdem muss der Zeitschritt kleiner werden, sonst „springt“ der Wind in einem Schritt über eine ganze Zelle hinweg und die Rechnung wird instabil:</p><p class="formula">u · Δt / Δx &lt; 1</p><p>Das ergibt <b>achtmal</b> so viel Rechenarbeit – und mit feineren Schichten in der Höhe noch mehr. Deshalb ist die Auflösung immer ein Kompromiss zwischen Genauigkeit und Rechenzeit.</p>'
-      },
-      smear: {
-        title: 'Warum verschmiert das grobe Gitter?',
-        body: '<p>Ein warmes Gebiet, das kleiner als eine Zelle ist, kann das Gitter gar nicht darstellen – es wird mit seiner Umgebung gemittelt. Zusätzlich verwischt die einfache Rechenvorschrift scharfe Kanten mit jedem Schritt ein wenig („numerische Diffusion“). Auf einem feinen Gitter ist dieser Fehler viel kleiner. Moderne Modelle nutzen genauere Verfahren, ganz verschwindet das Problem aber nie.</p>'
-      }
+    guessLabel: 'Dein Tipp',
+    solve: 'Auflösen',
+    next: 'Nächstes Fragezeichen',
+    reset: 'Nochmal raten',
+    ask: 'Schieb den Regler auf deinen Tipp und tippe auf „Auflösen“.',
+    result: (g, r, d) => 'Dein Tipp: ' + g + ' °C. Echt: <b>' + r + ' °C</b>. ' + (d === 0 ? 'Genau richtig!' : 'Du lagst ' + d + ' °C daneben.'),
+    lesson: {
+      near: 'Nah an einer Station kann man gut schätzen.',
+      city: 'Städte sind wärmer als ihre Umgebung – das sieht keine Station draußen auf dem Land.',
+      mountain: 'Auf dem Berg ist es viel kälter, aber dort steht keine Station. Hier liegt man leicht daneben.'
+    },
+    count: (n, total) => n + ' von ' + total + ' aufgelöst',
+    tasks: {
+      near: 'Schätze die Temperatur neben der Station.',
+      city: 'Schätze die Temperatur in der Stadt.',
+      mountain: 'Schätze die Temperatur auf dem Berg.'
+    },
+    merke: 'Messungen gibt es nur an einzelnen Punkten. Dazwischen muss man schätzen – und je weiter weg die nächste Station ist, desto unsicherer wird die Schätzung.',
+    term: '<b>Fachwort:</b> Das Schätzen zwischen Messpunkten heißt <b>Interpolation</b>.',
+    more: {
+      title: 'Wo wird überall gemessen?',
+      body: '<p>In Deutschland betreibt der Deutsche Wetterdienst Hunderte Wetterstationen. Weltweit kommen Wetterballons, Flugzeuge, Schiffe, Bojen und vor allem <b>Satelliten</b> dazu.</p><p>Trotzdem bleiben große Lücken: über den Ozeanen, in Wüsten, im Gebirge – und vor allem hoch oben in der Luft. Das Wetter passiert ja nicht nur am Boden.</p>'
     }
   },
 
-  // ---- Kapitel 2: Von Stationen zum Gitter (js/ch-stationen.js) --------------
-  stationen: {
-    intro: 'Gemessen wird nur an einzelnen Orten – an Wetterstationen. Das Modell braucht aber einen Wert in <b>jeder</b> Zelle. Die Lücken dazwischen füllt man durch <b>Interpolation</b>: Man schätzt aus den Stationen in der Nähe. Die Landschaft hier ist ausgedacht – darum kennen wir auch die „Wirklichkeit“ und können vergleichen.',
-    hint: 'Wähle ein Verfahren. Tippe auf eine Station, um sie aus- oder einzuschalten, und auf eine Zelle, um zu sehen, woher ihr Wert kommt.',
-    badge: 'Tippe auf eine Station oder Zelle',
-    methodLabel: 'Verfahren',
-    nearest: 'Nächste Station',
-    idw: 'Gewichtet',
-    viewLabel: 'Ansicht',
-    interp: 'Gitter',
-    truth: 'Wirklichkeit',
-    diff: 'Abweichung',
-    resLabel: 'Gitter',
-    powerLabel: 'Nähe zählt',
-    reset: 'Alle Stationen an',
-    readActive: 'Stationen',
-    readRms: 'Mittlere Abweichung',
-    readMax: 'Größte Abweichung',
-    activeOf: (n, total) => n + ' von ' + total,
-    cellNone: 'Tippe auf eine Zelle, um zu sehen, woher ihr Wert kommt.',
-    noStation: 'Ohne eine einzige Station weiß das Gitter gar nichts.',
-    cell: (v, real) => '<b>Diese Zelle:</b> ' + v + ' °C · in Wirklichkeit: ' + real + ' °C',
-    from: parts => 'Größte Anteile: ' + parts,
-    share: (n, pct) => 'Station ' + n + ' ' + pct + ' %',
-    place: { mountain: 'Gebirge', city: 'Stadt', valley: 'Tal' },
+  // ---- Schritt 2: Kästchen (js/ch-kaestchen.js) -----------------------------
+  kaestchen: {
+    intro: 'Ein Computer kann nicht mit „überall“ rechnen. Darum teilt ein Wettermodell das Land in <b>Kästchen</b> auf – wie Pixel in einem Foto. In jedes Kästchen kommt genau <b>eine</b> Temperatur.',
+    hint: 'Mach die Kästchen größer oder kleiner. Erkennst du den Berg und die Stadt noch?',
+    sizeLabel: 'Kästchen',
+    sizeName: ['sehr groß', 'groß', 'klein', 'sehr klein'],
+    real: 'Echtes Wetter zeigen',
+    mountain: 'Berg',
+    city: 'Stadt',
+    readCount: 'Anzahl Kästchen',
+    readTime: 'Rechenzeit',
+    time: ['1 Sekunde', '8 Sekunden', '1 Minute', '9 Minuten'],
+    say: [
+      'So grob verschwinden Berg und Stadt. Das Modell weiß nicht, dass es dort kälter oder wärmer ist.',
+      'Der Berg ist zu ahnen, die Stadt noch nicht.',
+      'Berg und Stadt sind gut zu erkennen.',
+      'Fast wie in echt – aber der Computer braucht jetzt viel länger.'
+    ],
     tasks: {
-      idw: 'Wechsle zum Verfahren „Gewichtet“.',
-      off: 'Schalte eine Station aus. Wo ändert sich das Gitter am meisten?',
-      cell: 'Tippe auf eine Zelle und sieh nach, welche Stationen sie bestimmen.',
-      diff: 'Schau dir die Abweichung an: Wo liegt die Schätzung am weitesten daneben?'
+      coarse: 'Mach die Kästchen sehr groß. Was passiert mit dem Berg?',
+      fine: 'Mach die Kästchen sehr klein.',
+      real: 'Vergleiche mit dem echten Wetter.'
     },
-    merke: 'Zwischen den Stationen muss man schätzen. Bei der Interpolation zählen nahe Stationen mehr als ferne. Wo nur wenige Stationen stehen – im Gebirge, auf dem Meer – wird die Schätzung unsicher.',
-    topics: {
-      nearest: {
-        title: 'Nächste Station: das Voronoi-Prinzip',
-        body: '<p>Das einfachste Verfahren: Jede Zelle übernimmt den Wert der Station, die ihr am nächsten liegt. So entstehen Flächen mit harten Kanten – jede Fläche gehört genau einer Station. Diese Flächen heißen <b>Voronoi-Zellen</b>. Dasselbe Prinzip steckt im <a href="#voronoi">Voronoi-Gitter</a> mancher Wettermodelle.</p>'
-      },
-      idw: {
-        title: 'Gewichteter Mittelwert: die Formel',
-        body: '<p>Besser: Man mittelt <i>alle</i> Stationen, aber nahe zählen mehr. Jede Station i bekommt ein Gewicht w<sub>i</sub>, das mit der Entfernung d<sub>i</sub> kleiner wird:</p><p class="formula">w<sub>i</sub> = 1 / d<sub>i</sub><sup>p</sup> &nbsp;&nbsp;&nbsp; T<sub>Zelle</sub> = (w<sub>1</sub>·T<sub>1</sub> + w<sub>2</sub>·T<sub>2</sub> + …) / (w<sub>1</sub> + w<sub>2</sub> + …)</p><p>Die Zahl p stellst du mit dem Regler „Nähe zählt“ ein: Bei großem p bestimmt fast nur die nächste Station den Wert, bei kleinem p wird über weite Strecken gemittelt. Dieses Verfahren heißt <b>inverse Distanzgewichtung</b>.</p>'
-      },
-      pros: {
-        title: 'Was machen Profis anders?',
-        body: '<p>Fachleute nutzen mehr Wissen über das Wetter: <b>Kriging</b> schätzt aus den Daten, wie weit eine Messung „ausstrahlt“, und gibt zu jedem Wert gleich die Unsicherheit mit. Für die Temperatur rechnet man außerdem mit der <b>Höhe</b>: Pro 100 Meter wird es im Mittel etwa 0,65 °C kälter. Eine Station im Tal sagt darum wenig über den Gipfel daneben.</p>'
-      },
-      limits: {
-        title: 'Warum reicht Interpolation nicht?',
-        body: '<p>Interpolation weiß nur, was die Stationen messen. Über dem Meer, in Wüsten, im Gebirge und vor allem in der Höhe gibt es kaum Stationen – dort bleibt das Gitter geraten. Außerdem weiß sie nichts über Physik: Sie kann ein Gewitter oder eine Wetterfront zwischen zwei Stationen nicht „erfinden“. Darum kombinieren Wetterdienste Messungen mit dem Modell selbst – das ist das nächste Kapitel.</p>'
-      }
+    merke: 'Ein Wettermodell teilt die Luft in Kästchen – in jedem steht nur eine Zahl. Kleine Kästchen zeigen mehr Einzelheiten, aber der Computer muss viel mehr rechnen.',
+    term: '<b>Fachwort:</b> Die Kästchen zusammen heißen <b>Rechengitter</b>, ihre Größe <b>Auflösung</b>.',
+    more: {
+      title: 'Wie groß sind die Kästchen in echt?',
+      body: '<p>Beim Deutschen Wetterdienst sind die Kästchen für die ganze Welt etwa 13 km breit, für Deutschland etwa 2 km. Und sie liegen nicht nur nebeneinander, sondern auch <b>übereinander</b> – in vielen Schichten bis hoch in die Luft. Zusammen sind das hunderte Millionen Kästchen.</p><p>Halbiert man die Breite, braucht man viermal so viele Kästchen – und weil der Computer dann auch in kürzeren Zeitschritten rechnen muss, etwa achtmal so viel Rechenzeit. Darum stehen in Wetterdiensten einige der größten Computer der Welt.</p>'
     }
   },
 
-  // ---- Kapitel 3: Datenassimilation (js/ch-assimilation.js) -----------------
-  assim: {
-    intro: 'Wetterdienste haben zwei Quellen: <b>neue Messungen</b> und die <b>letzte Vorhersage</b> des Modells für jetzt. Beide sind ungenau, aber auf verschiedene Weise. Die <b>Datenassimilation</b> verbindet sie zum besten Startzustand für die nächste Vorhersage – der <b>Analyse</b>.',
-    stepsAria: 'Schritte',
-    steps: { punkt: '1 · Ein Punkt', linie: '2 · Eine Linie', kreislauf: '3 · Der Kreislauf' },
-    badge: {
-      punkt: 'Tippe, um die Messung zu verschieben',
-      linie: 'Tippe, um eine Messung hinzuzufügen',
-      kreislauf: 'Starte den Kreislauf'
-    },
-    p: {
-      hint: 'Das Modell sagt 14 °C, das Thermometer misst 17 °C. Wem glaubst du mehr? Die Regler stellen ein, wie unsicher Modell und Messung sind. Tippe in das Bild, um die Messung zu verschieben.',
-      sbLabel: 'Modell unsicher',
-      soLabel: 'Messung unsicher',
-      model: v => 'Modell ' + v + '°',
-      obs: v => 'Messung ' + v + '°',
-      analysis: v => 'Analyse ' + v + '°',
-      formula: (xb, k, y, xa) => 'Analyse = ' + xb + ' + ' + k + ' × (' + y + ' − ' + xb + ') = ' + xa + ' °C',
-      readK: 'Gewicht der Messung',
-      readXa: 'Analyse',
-      readSa: 'Unsicherheit danach'
-    },
-    l: {
-      hint: 'Eine Linie quer durch das Land, 1000 km lang. Die violette Kurve ist die Vorhersage, die orangen Punkte sind Messungen. Die grüne Analyse wird nur in der Nähe der Messungen korrigiert. Tippe, um Messungen hinzuzufügen oder zu entfernen.',
-      soLabel: 'Messung unsicher',
-      LLabel: 'Einflussradius',
-      truth: 'Wirklichkeit',
-      model: 'Modell (Vorhersage)',
-      obs: 'Messung',
-      analysis: 'Analyse',
-      withDA: 'mit Messungen',
-      free: 'ohne Messungen',
-      readModel: 'Fehler Modell',
-      readAna: 'Fehler Analyse',
-      readN: 'Messungen'
-    },
-    c: {
-      hint: 'Die Vorhersage läuft weiter. Alle paar Stunden kommen neue Messungen dazu und korrigieren sie (grün). Die gestrichelte Vorhersage bekommt nie neue Messungen. Unten siehst du den Fehler beider Läufe.',
-      start: 'Kreislauf starten',
-      pause: 'Anhalten',
-      again: 'Noch einmal',
-      restart: 'Neu starten',
-      periodLabel: 'Messungen',
-      every: h => 'alle ' + h + ' h',
-      nLabel: 'Stationen',
-      day: d => d === 0 ? 'Start' : d + ' Tg.',
-      error: 'Fehler',
-      time: (d, h) => 'Tag ' + d + ', ' + h + ' Uhr',
-      readTime: 'Zeit',
-      readDA: 'Fehler mit Messungen',
-      readFree: 'Fehler ohne'
+  // ---- Schritt 3: Mischen (js/ch-mischen.js) --------------------------------
+  mischen: {
+    intro: 'Woher kommt die Zahl in jedem Kästchen? Aus <b>zwei</b> Quellen: der <b>Vorhersage</b>, die der Computer vorher für jetzt gerechnet hat – und den neuen <b>Messungen</b>. Beide sind nicht perfekt. Also werden sie gemischt.',
+    hint: 'Die Vorhersage sagt 12 °C, die Messung zeigt 16 °C. Wie auf einer Wippe zählt das Genauere mehr. Ändere, wie gut Messung und Vorhersage sind.',
+    deviceLabel: 'Gemessen mit',
+    profi: 'Wetterstation',
+    handy: 'Handy in der Sonne',
+    ageLabel: 'Vorhersage von',
+    gestern: 'vor 6 Stunden',
+    woche: 'vor einer Woche',
+    forecastAt: v => 'Vorhersage ' + v + '°',
+    measuredAt: v => 'Messung ' + v + '°',
+    result: v => 'Ins Kästchen: ' + v + ' °C',
+    readMix: 'Ins Kästchen kommt',
+    say: {
+      profi: {
+        gestern: 'Beide sind gut – die Wetterstation ist noch genauer, also zählt sie mehr.',
+        woche: 'Eine Woche alte Vorhersage? Dann zählt fast nur die Messung.'
+      },
+      handy: {
+        gestern: 'Ein Handy in der Sonne misst ungenau. Die frische Vorhersage zählt mehr.',
+        woche: 'Beide sind ungenau. Die Mischung liegt irgendwo dazwischen.'
+      }
     },
     tasks: {
-      trust: 'Schritt 1: Mach die Messung unsicherer als das Modell. Wohin rückt die Analyse?',
-      add: 'Schritt 2: Füge dort eine Messung hinzu, wo das Modell am weitesten danebenliegt.',
-      cycle: 'Schritt 3: Lass den Kreislauf mindestens fünf Tage laufen.'
+      handy: 'Miss mit dem Handy statt mit der Wetterstation.',
+      woche: 'Nimm die Vorhersage von vor einer Woche.',
+      almost: 'Finde die Mischung, bei der fast nur die Messung zählt.'
     },
-    merke: 'Datenassimilation verbindet zwei unvollständige Quellen: die letzte Vorhersage und neue Messungen. Jede wird nach ihrer Genauigkeit gewichtet. Das Ergebnis – die Analyse – ist der Start der nächsten Vorhersage, alle paar Stunden aufs Neue.',
-    topics: {
-      formula: {
-        title: 'Die Formel hinter der Analyse',
-        body: '<p>Für einen einzelnen Wert ist die Analyse ein gewichteter Mittelwert aus Modell x<sub>b</sub> und Messung y:</p><p class="formula">x<sub>a</sub> = x<sub>b</sub> + K · (y − x<sub>b</sub>) &nbsp;&nbsp;&nbsp; K = σ<sub>b</sub>² / (σ<sub>b</sub>² + σ<sub>o</sub>²)</p><p>σ<sub>b</sub> ist die Unsicherheit des Modells, σ<sub>o</sub> die der Messung. Der Klammerausdruck (y − x<sub>b</sub>) ist die <b>Überraschung</b>: um wie viel die Messung von der Vorhersage abweicht. Davon übernimmt die Analyse den Anteil K. Ist die Messung genau (σ<sub>o</sub> klein), ist K fast 1; ist sie ungenau, bleibt man nah am Modell.</p><p>Nebenbei wird die Analyse genauer als beide Quellen allein:</p><p class="formula">1/σ<sub>a</sub>² = 1/σ<sub>b</sub>² + 1/σ<sub>o</sub>²</p>'
-      },
-      field: {
-        title: 'Von einem Punkt zu Millionen Zellen',
-        body: '<p>Im echten Modell ist x<sub>b</sub> keine Zahl, sondern eine Liste mit hunderten Millionen Werten (alle Zellen, alle Größen), und es gibt Millionen Messungen. Die Formel sieht trotzdem gleich aus:</p><p class="formula">x<sub>a</sub> = x<sub>b</sub> + K · (y − H(x<sub>b</sub>))</p><p><b>H</b> übersetzt das Modell in das, was ein Messgerät sehen würde – zum Beispiel den Modellwert am Ort der Station oder die Strahlung, die ein Satellit messen würde. <b>K</b> enthält, wie weit und in welche Richtung eine Messung ihre Umgebung beeinflusst. Diese Reichweite stellst du in Schritt 2 mit dem Einflussradius ein. Sie hängt auch vom Wetter ab: Entlang einer Front reicht der Einfluss weiter als quer dazu.</p>'
-      },
-      sources: {
-        title: 'Woher kommen die Messungen?',
-        body: '<ul><li><b>Satelliten</b> liefern den allergrößten Teil der Daten: Strahlung, aus der sich Temperatur und Feuchte in verschiedenen Höhen ableiten lassen, dazu Wind aus Wolkenbewegungen.</li><li><b>Wetterballons</b> (Radiosonden) messen auf ihrem Weg nach oben Temperatur, Feuchte und Wind – zweimal täglich an vielen Orten der Welt.</li><li><b>Flugzeuge</b> melden Temperatur und Wind entlang ihrer Route.</li><li><b>Bodenstationen, Schiffe und Bojen</b> messen an der Oberfläche, <b>Radar</b> zeigt Niederschlag.</li></ul><p>Zusammen sind das viele Millionen Messwerte am Tag – und trotzdem bleibt der größte Teil der Atmosphäre ungemessen. Das Modell füllt die Lücken.</p>'
-      },
-      methods: {
-        title: '3D-Var, 4D-Var, Ensemble-Kalman – was ist das?',
-        body: '<p>Das sind verschiedene Wege, die Formel oben für riesige Datenmengen zu lösen. <b>3D-Var</b> sucht den Zustand, der zu Modell und Messungen gleichzeitig am besten passt. <b>4D-Var</b> berücksichtigt zusätzlich, <i>wann</i> gemessen wurde, und lässt das Modell durch ein Zeitfenster laufen (z. B. beim ECMWF). <b>Ensemble-Kalman-Filter</b> schätzen die Unsicherheit des Modells aus vielen parallelen Vorhersagen. Der DWD kombiniert für ICON Variations- und Ensembleverfahren (hybrides EnVar).</p>'
-      }
+    merke: 'Wetterdienste mischen neue Messungen mit der letzten Vorhersage – wer genauer ist, zählt mehr. So bekommt jedes Kästchen einen guten Startwert, auch dort, wo gar nicht gemessen wird.',
+    term: '<b>Fachwort:</b> Dieses Mischen heißt <b>Datenassimilation</b>.',
+    more: {
+      title: 'Wie oft wird gemischt?',
+      body: '<p>Immer wieder: Der Computer rechnet eine Vorhersage für die nächsten Stunden. Dann kommen neue Messungen, werden mit dieser Vorhersage gemischt, und von dort aus wird wieder vorausgerechnet. Beim Deutschen Wetterdienst passiert das für Deutschland jede Stunde.</p><p>Eine Messung verbessert dabei nicht nur ihr eigenes Kästchen, sondern auch die Kästchen in der Nähe. So füllt die Vorhersage die Lücken, die du in Schritt 1 gesehen hast.</p>'
     }
   },
 
-  // ---- Kapitel 4: Vorhersage (js/ch-vorhersage.js) --------------------------
-  vorhersage: {
-    intro: 'Aus der Analyse rechnet das Modell in kleinen Zeitschritten in die Zukunft – Zelle für Zelle, mit den Gleichungen aus Kapitel 1. Doch das Wetter ist <b>chaotisch</b>: Winzige Fehler am Start wachsen mit der Zeit. Hier rechnet ein Spielzeug-Wetter mit nur drei Zahlen 30-mal, jedes Mal mit einem minimal anderen Start.',
-    hint: 'Starte die Vorhersage. Oben siehst du, wo jeder der 30 Läufe gerade ist, unten den Verlauf einer Größe über die Zeit. Ändere die Unsicherheit am Start und vergleiche, wie lange die Läufe zusammenbleiben.',
-    badge: 'Starte die Vorhersage',
-    start: 'Vorhersage starten',
+  // ---- Schritt 4: Vorausrechnen (js/ch-vorausrechnen.js) --------------------
+  vorausrechnen: {
+    intro: 'Jetzt rechnet der Computer in die Zukunft – in kleinen Schritten. Bei jedem Schritt fragt jedes Kästchen seine Nachbarn: Was bringt der Wind zu mir?',
+    stepsAria: 'Teile',
+    steps: { regen: '1 · Regen zieht', faecher: '2 · Wie sicher?' },
+    badge: { regen: 'Starte die Uhr', faecher: 'Rechne eine Vorhersage' },
+    regenHint: 'Eine Regenwolke kommt von Westen. Der Wind schiebt den Regen jede Stunde ein Kästchen weiter. Wann regnet es in der Stadt?',
+    start: 'Uhr starten',
     pause: 'Anhalten',
     resume: 'Weiter',
-    again: 'Noch einmal',
-    restart: 'Neu starten',
-    epsLabel: 'Unsicherheit am Start',
-    epsName: ['winzig', 'sehr klein', 'klein', 'mittel', 'groß'],
-    attractor: 'Zustand aller Läufe',
-    wingL: 'Wetterlage A',
-    wingR: 'Wetterlage B',
-    spaghetti: 'Verlauf über die Zeit (Tage, Spielzeit)',
-    limitLabel: d => 'brauchbar bis Tag ' + d,
+    again: 'Nochmal',
+    step: '+1 Stunde',
+    reset: 'Zurück',
+    wind: 'Wind',
+    city: 'Stadt',
+    clock: h => h + ' Uhr',
+    readClock: 'Uhrzeit',
+    readCity: 'In der Stadt',
+    wet: 'Regen',
+    dry: 'trocken',
+    waiting: 'Noch ist es in der Stadt trocken.',
+    arrived: h => 'Nach ' + h + ' Stunden ist der Regen in der Stadt angekommen.',
+    fanHint: 'Niemand kennt das Wetter von jetzt perfekt. Darum rechnet der Computer viele Vorhersagen, jede mit einem winzig anderen Start. Tippe mehrmals auf „Vorhersage rechnen“.',
+    add: 'Vorhersage rechnen',
+    clear: 'Alle löschen',
+    fanTitle: 'Temperatur in der Stadt',
+    fanEmpty: 'Noch keine Vorhersage gerechnet',
+    today: 'heute',
     dayN: d => 'Tag ' + d,
-    beyond: 'bis zum Ende',
-    readTime: 'Zeit',
-    readSpread: 'Streuung',
-    readLimit: 'Brauchbar bis',
+    sure: 'einig',
+    unsure: 'unsicher',
+    readRuns: 'Vorhersagen',
+    readSure: 'Einig bis',
+    untilDay: d => 'Tag ' + d,
+    allDays: 'alle 10 Tage',
     tasks: {
-      run: 'Starte die Vorhersage und beobachte die 30 Läufe.',
-      small: 'Stell die Unsicherheit am Start auf „sehr klein“ oder „winzig“ und lass sie laufen.',
-      big: 'Stell sie auf „mittel“ oder „groß“: Wann laufen die Läufe auseinander?'
+      rain: 'Lass die Uhr laufen, bis es in der Stadt regnet.',
+      fan: 'Rechne mindestens 5 Vorhersagen. Wann laufen sie auseinander?'
     },
-    merke: 'Das Wetter ist chaotisch: Kleine Fehler im Startzustand wachsen, bis die Vorhersage nicht mehr stimmt. Darum rechnen Wetterdienste viele leicht verschiedene Vorhersagen – ein Ensemble – und darum lohnt sich jede gute Messung: Je genauer die Analyse, desto weiter reicht die Vorhersage.',
-    topics: {
-      timestep: {
-        title: 'Rechnen in Zeitschritten',
-        body: '<p>Das Modell kennt den Zustand jetzt und berechnet daraus, wie schnell sich jede Größe ändert. Dann geht es einen kleinen Schritt Δt weiter:</p><p class="formula">Zustand(t + Δt) = Zustand(t) + Δt · Änderungsrate(t)</p><p>Das wiederholt sich viele tausend Mal. Bei ICON mit 13 km Zellbreite ist ein Zeitschritt nur etwa zwei Minuten lang – eine 7-Tage-Vorhersage sind also rund 5000 Schritte, jeder für hunderte Millionen Zellen.</p>'
-      },
-      butterfly: {
-        title: 'Der Schmetterlingseffekt',
-        body: '<p>Das Spielzeug-Wetter hier stammt vom Meteorologen Edward Lorenz (1963). Er hatte ein stark vereinfachtes Modell und bemerkte, dass eine winzige Rundung der Startwerte nach einiger Zeit zu einem völlig anderen Ergebnis führte. Daraus entstand das Bild vom Schmetterling, dessen Flügelschlag irgendwann über einen Sturm entscheiden kann.</p><p>Die Zeit ist hier nur „Spielzeit“ – das Prinzip ist aber dasselbe wie in echten Modellen: Heute sind Vorhersagen etwa eine Woche lang gut, und nach rund zwei Wochen sind sie kaum besser als das langjährige Mittel.</p>'
-      },
-      ensemble: {
-        title: 'Ensemble-Vorhersagen',
-        body: '<p>Weil man den Startzustand nie genau kennt, starten Wetterdienste viele Läufe mit leicht veränderten Analysen – ein <b>Ensemble</b>. Der DWD rechnet ICON-EPS mit 40 Läufen, das ECMWF sein Ensemble mit 51. Liegen die Läufe eng beieinander, ist die Vorhersage sicher; laufen sie auseinander, ist sie unsicher. Daraus entstehen Angaben wie „Regenwahrscheinlichkeit 70 %“.</p>'
-      },
-      loop: {
-        title: 'Wie hängt alles zusammen?',
-        body: '<ol><li><b>Gitter</b>: Die Luft wird in Zellen zerlegt (Kapitel 1).</li><li><b>Messungen</b> kommen von Stationen, Ballons, Flugzeugen und Satelliten (Kapitel 2).</li><li><b>Datenassimilation</b> verbindet sie mit der letzten Vorhersage zur Analyse (Kapitel 3).</li><li><b>Vorhersage</b>: Von der Analyse aus rechnet das Modell in die Zukunft (dieses Kapitel).</li><li>Wenige Stunden später geht es mit neuen Messungen wieder von vorne los.</li></ol><p>Wie die großen Wetterdienste ihr Gitter um die ganze Erde legen, siehst du im letzten Kapitel – in 3D und in Augmented Reality.</p>'
-      }
+    merke: 'Ein Wettermodell rechnet Schritt für Schritt in die Zukunft. Kleine Fehler am Anfang werden mit der Zeit größer. Darum rechnen Wetterdienste viele Vorhersagen gleichzeitig: Sind sie sich einig, ist die Vorhersage sicher.',
+    term: '<b>Fachwort:</b> Viele Vorhersagen auf einmal nennt man <b>Ensemble</b>.',
+    more: {
+      title: 'Wie weit kann man das Wetter vorhersagen?',
+      body: '<p>Für die nächsten Tage sind Vorhersagen heute sehr gut. Nach etwa einer Woche werden sie deutlich unsicherer, nach rund zwei Wochen weiß niemand mehr, ob es an einem bestimmten Tag regnet.</p><p>Das liegt nicht an schlechten Computern, sondern am Wetter selbst: Winzige Unterschiede wachsen immer weiter an. Man nennt das den <b>Schmetterlingseffekt</b>. Die Linien hier stammen aus einem Spielzeug-Wettermodell, das genau dieses Verhalten zeigt.</p>'
     }
   },
 
-  // ---- Kapitel 5: Die Gitter der Welt (js/app.js) ---------------------------
+  // ---- Schritt 5: Die ganze Erde (js/app.js) --------------------------------
   gitter: {
-    intro: 'Eine Kugel lückenlos in Zellen zu zerlegen, ist schwierig – jeder Wetterdienst hat dafür seine eigene Lösung. Wähle ein Gitter, dreh es mit dem Finger und stell es mit AR in deinen Raum.'
+    intro: 'Echte Wettermodelle legen ihre Kästchen um die ganze Erde – und in Schichten übereinander. Eine Kugel in Kästchen zu zerlegen, ist gar nicht so einfach. Hier siehst du neun Lösungen. Dreh sie mit dem Finger oder stell sie mit AR in deinen Raum.'
   },
 
   stripAria: 'Gitter auswählen',
@@ -333,7 +268,7 @@ window.TEXTS = {
     nextAria: name => 'Nächstes Gitter: ' + name
   },
 
-  sources: 'Alle Wetterdaten in den Kapiteln 1–4 sind ausgedacht (synthetisch). Spielzeug-Wetter in Kapitel 4: Lorenz-Modell (1963). Angaben zu den Modellen nach DWD, NOAA, ECMWF, NCAR und Météo-France. 3D-Anzeige: model-viewer (Google, Apache-Lizenz 2.0).',
+  sources: 'Landschaft und Wetterdaten in den Schritten 1–4 sind ausgedacht. Die Vorhersage-Linien in Schritt 4 stammen aus dem Spielzeug-Wettermodell von Edward Lorenz (1963). Angaben zu den Modellen nach DWD, NOAA, ECMWF, NCAR und Météo-France. 3D-Anzeige: model-viewer (Google, Apache-Lizenz 2.0).',
 
   // The nine grids, in the order of the strip. name: heading and pager;
   // short: chip in the strip; ar: label of the AR button.

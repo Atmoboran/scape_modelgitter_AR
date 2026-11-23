@@ -1,5 +1,5 @@
-// Shared helpers for the canvas chapters (Warum, Stationen, Assimilation,
-// Vorhersage): a crisp canvas that follows the size of its stage frame,
+// Shared helpers for the canvas steps (Messen, Kästchen, Mischen,
+// Vorausrechnen): a crisp canvas that follows the size of its stage frame,
 // a seeded random generator, number formatting and a few drawing helpers.
 // Load after js/kit.js and before the chapter scripts.
 (() => {
